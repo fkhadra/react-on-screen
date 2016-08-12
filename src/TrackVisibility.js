@@ -42,7 +42,7 @@ export default class TrackVisibility extends Component {
     this.removeListener();
   }
 
-  getPropsToTransfert() {
+  getPropsToTransfer() {
     const props = {};
     Object.keys(this.props).forEach(key => {
       if (key !== 'once' && key !== 'throttleInterval' && key !== 'children') {
@@ -55,7 +55,7 @@ export default class TrackVisibility extends Component {
   getChildren() {
     return React.Children.map(
       this.props.children,
-      child => React.cloneElement(child, { ...this.getPropsToTransfert(), isVisible: this.state.isVisible })
+      child => React.cloneElement(child, { ...this.getPropsToTransfer(), isVisible: this.state.isVisible })
     );
   }
 
@@ -70,9 +70,9 @@ export default class TrackVisibility extends Component {
       rect.right <= (window.innerWidth || html.clientWidth)
     ) {
       this.props.once && this.removeListener();
-      this.setState({ isVisible: true });
+      !this.state.isVisible && this.setState({ isVisible: true });
     } else {
-      this.setState({ isVisible: false });
+      this.state.isVisible && this.setState({ isVisible: false });
     }
   }
 
