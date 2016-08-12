@@ -1,0 +1,8 @@
+#!/bin/sh
+
+rm -rf dist/*
+
+./node_modules/.bin/webpack --output-filename=dist/ReactContexify.js
+./node_modules/.bin/webpack --output-filename=dist/ReactContexify.min.js --optimize-minimize
+
+./node_modules/.bin/babel src -d lib
