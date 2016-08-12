@@ -1,7 +1,14 @@
+/* eslint-disable */
 var webpack = require('webpack');
 
 module.exports = {
   entry: './src/index.js',
+  devServer: {
+    hot: true,
+    inline: true,
+    port: 7700,
+    historyApiFallback: true,
+  },
   output: {
     filename: 'dist/ReactOnScreen.js',
     libraryTarget: 'umd',
@@ -23,7 +30,13 @@ module.exports = {
       commonjs: 'react',
       amd: 'react'
     }
-  }],
+  },
+    {
+      'cheerio': 'window',
+      'react/lib/ExecutionEnvironment': true,
+      'react/lib/ReactContext': true
+    }
+  ],
   plugins: [
     new webpack.optimize.OccurenceOrderPlugin()
   ]
