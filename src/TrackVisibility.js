@@ -17,7 +17,7 @@ const propTypes = {
 };
 
 const defaultProps = {
-  once: false,
+  once: true,
   throttleInterval: 150
 };
 
