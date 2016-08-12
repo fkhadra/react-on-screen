@@ -8,7 +8,7 @@
     "react-component",
     "visible"
   ],
-  "main": "index.js",
+  "main": "lib/index.js",
   "scripts": {
     "lint": "node node_modules/eslint/bin/eslint src/"
   },
@@ -33,6 +33,7 @@
     "webpack": "^1.13.1"
   },
   "dependencies": {
+    "babel-loader": "^6.2.4",
     "lodash.throttle": "^4.1.0",
     "react": "^15.3.0"
   }
