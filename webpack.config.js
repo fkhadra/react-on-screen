@@ -7,7 +7,7 @@ module.exports = {
     hot: true,
     inline: true,
     port: 7700,
-    historyApiFallback: true,
+    historyApiFallback: true
   },
   output: {
     filename: 'dist/ReactOnScreen.js',

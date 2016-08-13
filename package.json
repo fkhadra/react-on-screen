@@ -1,17 +1,20 @@
 {
   "name": "react-on-screen",
   "version": "1.0.0",
-  "description": "A higher order component to track if your react component is visible on screen",
+  "description": "A wrapper component to track if your react component is visible on screen",
   "keywords": [
     "react",
     "viewport",
     "react-component",
-    "visible"
+    "visible",
+    "track"
   ],
   "main": "lib/index.js",
   "scripts": {
+    "//" : "Using path because of windows. Shame on me !",
     "lint": "node node_modules/eslint/bin/eslint src/",
-    "mocha": "node node_modules/mocha/bin/mocha --compilers js:babel-core/register --require jsdomSetup.js --recursive test/"
+    "test": "node node_modules/mocha/bin/mocha --compilers js:babel-core/register --require jsdomSetup.js --recursive test/",
+    "build": "./scripts/build.sh"
   },
   "repository": {
     "type": "git",
@@ -40,10 +43,11 @@
     "mocha": "^3.0.2",
     "react-addons-test-utils": "^15.3.0",
     "react-dom": "^15.3.0",
-    "webpack": "^1.13.1"
+    "sinon": "^1.17.5",
+    "webpack": "^1.13.1",
+    "babel-loader": "^6.2.4"
   },
   "dependencies": {
-    "babel-loader": "^6.2.4",
     "lodash.throttle": "^4.1.0",
     "react": "^15.3.0"
   }
