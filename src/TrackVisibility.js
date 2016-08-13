@@ -4,21 +4,25 @@ import throttle from 'lodash.throttle';
 
 const propTypes = {
   once: PropTypes.bool,
-  children: PropTypes.oneOfType([
-    PropTypes.element,
-    PropTypes.arrayOf(PropTypes.element)
-  ]),
   throttleInterval(props, propName, component) {
     const currentProp = props[propName];
     if (!Number.isInteger(currentProp) || currentProp < 0) {
       return new Error(`The ${propName} prop you provided to ${component} is not a valid integer >= 0.`);
     }
-  }
+  },
+  children: PropTypes.oneOfType([
+    PropTypes.element,
+    PropTypes.arrayOf(PropTypes.element)
+  ]),
+  style: PropTypes.object,
+  className: PropTypes.string
 };
 
 const defaultProps = {
-  once: true,
-  throttleInterval: 150
+  once: false,
+  throttleInterval: 150,
+  style: null,
+  className: null
 };
 
 export default class TrackVisibility extends Component {
@@ -42,10 +46,19 @@ export default class TrackVisibility extends Component {
     this.removeListener();
   }
 
-  getPropsToTransfer() {
+  getPropsToRender() {
+    const props = {};
+
+    this.props.className !== null && (props.className = this.props.className);
+    this.props.style !== null && (props.style = this.props.style);
+
+    return props;
+  }
+
+  getChildProps() {
     const props = {};
     Object.keys(this.props).forEach(key => {
-      if (key !== 'once' && key !== 'throttleInterval' && key !== 'children') {
+      if (!{}.hasOwnProperty.call(TrackVisibility.defaultProps, key)) {
         props[key] = this.props[key];
       }
     });
@@ -55,7 +68,7 @@ export default class TrackVisibility extends Component {
   getChildren() {
     return React.Children.map(
       this.props.children,
-      child => React.cloneElement(child, { ...this.getPropsToTransfer(), isVisible: this.state.isVisible })
+      child => React.cloneElement(child, { ...this.getChildProps(), isVisible: this.state.isVisible })
     );
   }
 
@@ -88,7 +101,7 @@ export default class TrackVisibility extends Component {
 
   render() {
     return (
-      <div ref={this.setNodeRef}>
+      <div ref={this.setNodeRef} {...this.getPropsToRender()}>
         {this.getChildren()}
       </div>
     );
