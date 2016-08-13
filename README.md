@@ -58,7 +58,7 @@ const YourApp = () => {
 ## Api
 
 |props           |type            |default|description|
-|------------------------------------------------------------
+|-----------------------------------------------------
 |once            |bool            |false|If set to true the visibility will be checked only once and the event listeners will be removed| 
 |throttleInterval|int             |150  |Tweak the event listeners. See [David Corbacho's article](https://css-tricks.com/debouncing-throttling-explained-examples/)|
 |children        |React Components|  -  |Can be on or many react components|
@@ -73,24 +73,9 @@ const YourApp = () => {
 
 Any contributions is welcome !
 
-- Lint :
-
-```
-$ npm run lint
-```
-
-- Test :
-
-```
-$ npm run test
-```
-
-- Build :
-
-```
-$ npm run build // will lint and run test before
-```
-
+- Lint : ``` $ npm run lint ```
+- Test : ``` $ npm run test ```
+- Build : ``` $ npm run build // will lint and run test before ```
 
 ## License
 
