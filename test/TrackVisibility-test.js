@@ -5,6 +5,11 @@ import { expect } from 'chai';
 import sinon from 'sinon';
 import TrackVisibility from './../src/TrackVisibility';
 
+
+const hasProp = (Component, prop) => {
+ return {}.hasOwnProperty.call(Component, prop);
+};
+
 describe('<TrackVisibility />', () => {
 
   describe('When rendering the component', ()=> {
@@ -46,22 +51,26 @@ describe('<TrackVisibility />', () => {
       expect(wrapper.state('isVisible')).to.equal(false);
     });
 
-    it('Should pass isVisible state to children as prop', () => {
+    it('Should pass isVisible to children as prop', () => {
       const wrapper = shallow(
         <TrackVisibility>
           <div />
         </TrackVisibility>
       );
-      expect(wrapper.contains(<div isVisible={false}/>)).to.equal(true);
+      expect(hasProp(wrapper.children().props(), 'isVisible')).to.equal(true);
     });
 
-    it('Should transfer all the props provided to children but omit own props [once, throttleInterval]', () => {
+    it('Should transfer all the props provided to children but omit own props [once, throttleInterval, className, style]', () => {
       const wrapper = shallow(
         <TrackVisibility foo="bar" baz="foobar">
           <div />
         </TrackVisibility>
       );
-      expect(wrapper.contains(<div isVisible={false} foo="bar" baz="foobar"/>)).to.equal(true);
+      const props = wrapper.children().props();
+
+      expect(hasProp(props, 'foo')).to.equal(true);
+      expect(hasProp(props, 'baz')).to.equal(true);
+      expect(hasProp(props, 'isVisible')).to.equal(true);
     });
 
     it('Store the result of the ref callback into this.nodeRef', () => {
@@ -77,7 +86,5 @@ describe('<TrackVisibility />', () => {
       expect(wrapper.state('isVisible')).to.equal(false);
 
     })
-
   });
-
 });
