@@ -13,7 +13,9 @@
   "scripts": {
     "//" : "Using path because of windows. Shame on me !",
     "lint": "node node_modules/eslint/bin/eslint src/",
+    "pretest": "npm run lint",
     "test": "node node_modules/mocha/bin/mocha --compilers js:babel-core/register --require jsdomSetup.js --recursive test/",
+    "prebuild" : "npm run test",
     "build": "./scripts/build.sh"
   },
   "repository": {
