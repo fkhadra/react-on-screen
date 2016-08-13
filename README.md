@@ -24,13 +24,13 @@ $ npm install --save react-on-screen
 
 A UMD build is also available :
 
-```
+```html
 <script src="./dist/ReactOnScreen.min.js"></script>
 ```
 
 ## What's it looks like?
 
-```
+```javascript
 import React from 'react';
 import TrackVisibility from 'react-on-screen'; // CommonJs : require('react-on-screen').default
 
@@ -58,9 +58,9 @@ const YourApp = () => {
 ## Api
 
 |props           |type            |default|description|
-|-----------------------------------------------------
-|once            |bool            |false|If set to true the visibility will be checked only once and the event listeners will be removed| 
-|throttleInterval|int             |150  |Tweak the event listeners. See [David Corbacho's article](https://css-tricks.com/debouncing-throttling-explained-examples/)|
+|----------------|----------------|-------|-----------|
+|once            |bool            |false|If set to true track the visibility only once and remove the event listeners| 
+|throttleInterval|int             |150|Tweak the event listeners. See [David Corbacho's article](https://css-tricks.com/debouncing-throttling-explained-examples/)|
 |children        |React Components|  -  |Can be on or many react components|
 |style           |object          |  -  |Style attributes|
 |className       |string          |  -  |Css classes|
