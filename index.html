@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="en-us">
+  <head>
+    <meta charset="UTF-8">
+    <title>React-on-screen by sniphpet</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" type="text/css" href="stylesheets/normalize.css" media="screen">
+    <link href='https://fonts.googleapis.com/css?family=Open+Sans:400,700' rel='stylesheet' type='text/css'>
+    <link rel="stylesheet" type="text/css" href="stylesheets/stylesheet.css" media="screen">
+    <link rel="stylesheet" type="text/css" href="stylesheets/github-light.css" media="screen">
+  </head>
+  <body>
+    <section class="page-header">
+      <h1 class="project-name">React-on-screen</h1>
+      <h2 class="project-tagline">Check if a react component is in the viewport</h2>
+      <a href="https://github.com/sniphpet/react-on-screen" class="btn">View on GitHub</a>
+      <a href="https://github.com/sniphpet/react-on-screen/zipball/master" class="btn">Download .zip</a>
+      <a href="https://github.com/sniphpet/react-on-screen/tarball/master" class="btn">Download .tar.gz</a>
+    </section>
+
+    <section class="main-content">
+      <h1>
+<a id="react-on-screen" class="anchor" href="#react-on-screen" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>React on screen</h1>
+
+<p>Provide a component to wrap your react component and check if there are visible on the screen.
+You can use this component to trigger an entrance animation for instance !</p>
+
+<h2>
+<a id="how-it-works-" class="anchor" href="#how-it-works-" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>How it works ?</h2>
+
+<p>The component simply passes a <code>isVisible</code> props to your component.</p>
+
+<h2>
+<a id="features" class="anchor" href="#features" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Features</h2>
+
+<ul>
+<li>Don't rely on <a href="https://facebook.github.io/react/docs/top-level-api.html#reactdom.finddomnode">findDOMNode</a>. So it can be used with a stateless component.</li>
+<li>Transfer all the props to the wrapped component</li>
+<li>Visibility can be tracked only once</li>
+<li>Event listeners are implemented with throttle to avoid  memory leaks or performance issues</li>
+</ul>
+
+<h2>
+<a id="installation" class="anchor" href="#installation" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Installation</h2>
+
+<p>Using <a href="https://www.npmjs.com/">npm</a> :</p>
+
+<pre><code>$ npm install --save react-on-screen
+</code></pre>
+
+<p>A UMD build is also available :</p>
+
+<div class="highlight highlight-text-html-basic"><pre>&lt;<span class="pl-ent">script</span> <span class="pl-e">src</span>=<span class="pl-s"><span class="pl-pds">"</span>./dist/ReactOnScreen.min.js<span class="pl-pds">"</span></span>&gt;&lt;/<span class="pl-ent">script</span>&gt;</pre></div>
+
+<h2>
+<a id="whats-it-looks-like" class="anchor" href="#whats-it-looks-like" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>What's it looks like?</h2>
+
+<div class="highlight highlight-source-js"><pre><span class="pl-k">import</span> <span class="pl-smi">React</span> <span class="pl-k">from</span> <span class="pl-s"><span class="pl-pds">'</span>react<span class="pl-pds">'</span></span>;
+<span class="pl-k">import</span> <span class="pl-smi">TrackVisibility</span> <span class="pl-k">from</span> <span class="pl-s"><span class="pl-pds">'</span>react-on-screen<span class="pl-pds">'</span></span>; <span class="pl-c">// CommonJs : require('react-on-screen').default</span>
+
+
+<span class="pl-k">const</span> <span class="pl-c1">ComponentToTrack</span> <span class="pl-k">=</span> (<span class="pl-smi">props</span>) <span class="pl-k">=&gt;</span> {
+    <span class="pl-k">const</span> <span class="pl-c1">style</span> <span class="pl-k">=</span> {
+        background<span class="pl-k">:</span> <span class="pl-smi">props</span>.<span class="pl-smi">isVisible</span> <span class="pl-k">?</span> <span class="pl-s"><span class="pl-pds">'</span>red<span class="pl-pds">'</span></span> <span class="pl-k">:</span> <span class="pl-s"><span class="pl-pds">'</span>blue<span class="pl-pds">'</span></span>
+    };
+
+    <span class="pl-k">return</span> <span class="pl-k">&lt;</span>div style<span class="pl-k">=</span>{style}<span class="pl-k">&gt;</span>Hello<span class="pl-k">&lt;</span><span class="pl-k">/</span>div<span class="pl-k">&gt;</span>;
+}
+
+<span class="pl-k">const</span> <span class="pl-c1">YourApp</span> <span class="pl-k">=</span> () <span class="pl-k">=&gt;</span> {
+    <span class="pl-k">return</span> (
+       {<span class="pl-c">/* Some Stuff */</span>}
+        <span class="pl-k">&lt;</span>TrackVisibility<span class="pl-k">&gt;</span>
+            <span class="pl-k">&lt;</span>ComponentToTrack <span class="pl-k">/</span><span class="pl-k">&gt;</span>
+        <span class="pl-k">&lt;</span><span class="pl-k">/</span>TrackVisibility<span class="pl-k">&gt;</span>
+       {<span class="pl-c">/* Some Stuff */</span>}
+    );
+}
+</pre></div>
+
+<h2>
+<a id="api" class="anchor" href="#api" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Api</h2>
+
+<table>
+<thead>
+<tr>
+<th>props</th>
+<th>type</th>
+<th>default</th>
+<th>description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>once</td>
+<td>bool</td>
+<td>false</td>
+<td>If set to true track the visibility only once and remove the event listeners</td>
+</tr>
+<tr>
+<td>throttleInterval</td>
+<td>int</td>
+<td>150</td>
+<td>Tweak the event listeners. See <a href="https://css-tricks.com/debouncing-throttling-explained-examples/">David Corbacho's article</a>
+</td>
+</tr>
+<tr>
+<td>children</td>
+<td>React Components</td>
+<td>-</td>
+<td>Can be on or many react components</td>
+</tr>
+<tr>
+<td>style</td>
+<td>object</td>
+<td>-</td>
+<td>Style attributes</td>
+</tr>
+<tr>
+<td>className</td>
+<td>string</td>
+<td>-</td>
+<td>Css classes</td>
+</tr>
+</tbody>
+</table>
+
+<h2>
+<a id="todo" class="anchor" href="#todo" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>TODO</h2>
+
+<ul>
+<li>[ ] Check for partial visibility</li>
+</ul>
+
+<h2>
+<a id="contributions" class="anchor" href="#contributions" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Contributions</h2>
+
+<p>Any contributions is welcome !</p>
+
+<ul>
+<li>Lint : <code>$ npm run lint</code>
+</li>
+<li>Test : <code>$ npm run test</code>
+</li>
+<li>Build : <code>$ npm run build // will lint and run test before</code>
+</li>
+</ul>
+
+<h2>
+<a id="license" class="anchor" href="#license" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>License</h2>
+
+<p>Licensed under MIT</p>
+
+      <footer class="site-footer">
+        <span class="site-footer-owner"><a href="https://github.com/sniphpet/react-on-screen">React-on-screen</a> is maintained by <a href="https://github.com/sniphpet">sniphpet</a>.</span>
+
+        <span class="site-footer-credits">This page was generated by <a href="https://pages.github.com">GitHub Pages</a> using the <a href="https://github.com/jasonlong/cayman-theme">Cayman theme</a> by <a href="https://twitter.com/jasonlong">Jason Long</a>.</span>
+      </footer>
+
+    </section>
+
+  
+  </body>
+</html>
