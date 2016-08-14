@@ -14,6 +14,10 @@ The component simply passes a ```isVisible``` props to your component.
 - Visibility can be tracked only once
 - Event listeners are implemented with throttle to avoid  memory leaks or performance issues
 
+## Demo
+
+View the [demo](https://sniphpet.github.io/react-on-screen/demo-react-on-screen.html).
+
 ## Installation
 
 Using [npm](https://www.npmjs.com/) :
