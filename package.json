@@ -1,6 +1,6 @@
 {
   "name": "react-on-screen",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "A wrapper component to track if your react component is visible on screen",
   "keywords": [
     "react",
@@ -16,7 +16,7 @@
     "lint": "eslint src/",
     "pretest": "npm run lint",
     "test": "mocha --compilers js:babel-core/register --require jsdomSetup.js --recursive test/",
-    "prebuild" : "npm run test",
+    "prebuild": "npm run test",
     "build": "./scripts/build.sh"
   },
   "repository": {
