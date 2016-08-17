@@ -7,14 +7,15 @@
     "viewport",
     "react-component",
     "visible",
-    "track"
+    "track",
+    "react-on-screen",
+    "screen"
   ],
   "main": "lib/index.js",
   "scripts": {
-    "//" : "Using path because of windows. Shame on me !",
-    "lint": "node node_modules/eslint/bin/eslint src/",
+    "lint": "eslint src/",
     "pretest": "npm run lint",
-    "test": "node node_modules/mocha/bin/mocha --compilers js:babel-core/register --require jsdomSetup.js --recursive test/",
+    "test": "mocha --compilers js:babel-core/register --require jsdomSetup.js --recursive test/",
     "prebuild" : "npm run test",
     "build": "./scripts/build.sh"
   },
@@ -22,7 +23,7 @@
     "type": "git",
     "url": "git+https://github.com/sniphpet/react-on-screen.git"
   },
-  "author": "Fadi Khadra  <fdkhadra@gmail.com> (https://sniphpet.com)",
+  "author": "Fadi Khadra  <fdkhadra@gmail.com> (https://sniphpet.github.io)",
   "license": "MIT",
   "bugs": {
     "url": "https://github.com/sniphpet/react-on-screen/issues"
