@@ -25,7 +25,7 @@
     "no-else-return": 0,
     "no-param-reassign": 0,
     "quotes": 0,
-    "comma-dangle": ["error", "never"],
+    "comma-dangle": 0,
     "react/jsx-filename-extension": [1, { "extensions": [".js", ".jsx"] }],
     "no-unused-expressions": ["error", { "allowShortCircuit": true, "allowTernary": true  }],
     "consistent-return": ["warn"]
