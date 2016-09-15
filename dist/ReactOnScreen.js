@@ -128,7 +128,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	  function TrackVisibility(props) {
 	    _classCallCheck(this, TrackVisibility);
 
-	    var _this = _possibleConstructorReturn(this, Object.getPrototypeOf(TrackVisibility).call(this, props));
+	    var _this = _possibleConstructorReturn(this, (TrackVisibility.__proto__ || Object.getPrototypeOf(TrackVisibility)).call(this, props));
 
 	    _this.state = {
 	      isVisible: false

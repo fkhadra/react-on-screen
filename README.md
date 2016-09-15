@@ -1,4 +1,4 @@
-# React on screen
+# React on screen [![npm](https://img.shields.io/npm/dt/react-on-screen.svg?maxAge=2592000)]() [![npm](https://img.shields.io/npm/v/react-on-screen.svg?maxAge=2592000)]() [![license](https://img.shields.io/github/license/sniphpet/react-on-screen.svg?maxAge=2592000)]()
 
 Provide a component to wrap your react component and check if there are visible on the screen.
 You can use this component to trigger an entrance animation for instance !
