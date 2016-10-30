@@ -68,7 +68,7 @@ const YourApp = () => {
 |children        |React Components|  -  |Can be on or many react components|
 |style           |object          |  -  |Style attributes|
 |className       |string          |  -  |Css classes|
-|offset          |number          |  0  |Allows you to specify how far below or above of the viewport you want to set isVisible to `true`|
+|offset          |number          |  0  |Allows you to specify how far left or above of the viewport you want to set isVisible to `true`|
 
 ## TODO
 
