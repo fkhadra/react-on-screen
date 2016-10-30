@@ -9,20 +9,23 @@ const propTypes = {
     if (!Number.isInteger(currentProp) || currentProp < 0) {
       return new Error(`The ${propName} prop you provided to ${component} is not a valid integer >= 0.`);
     }
+    return null;
   },
   children: PropTypes.oneOfType([
     PropTypes.element,
     PropTypes.arrayOf(PropTypes.element)
   ]),
   style: PropTypes.object,
-  className: PropTypes.string
+  className: PropTypes.string,
+  offset: PropTypes.number,
 };
 
 const defaultProps = {
   once: false,
   throttleInterval: 150,
   style: null,
-  className: null
+  className: null,
+  offset: 0,
 };
 
 export default class TrackVisibility extends Component {
@@ -51,6 +54,7 @@ export default class TrackVisibility extends Component {
 
     this.props.className !== null && (props.className = this.props.className);
     this.props.style !== null && (props.style = this.props.style);
+    this.props.offset !== 0 && (props.offset = this.props.offset);
 
     return props;
   }
@@ -75,12 +79,13 @@ export default class TrackVisibility extends Component {
   isComponentVisible() {
     const rect = this.nodeRef.getBoundingClientRect();
     const html = document.documentElement;
+    const offset = this.props.offset;
 
     if (
       rect.top >= 0 &&
       rect.left >= 0 &&
-      rect.bottom <= (window.innerHeight || html.clientHeight) &&
-      rect.right <= (window.innerWidth || html.clientWidth)
+      rect.bottom <= (window.innerHeight + offset || html.clientHeight + offset) &&
+      rect.right <= (window.innerWidth + offset || html.clientWidth + offset)
     ) {
       this.props.once && this.removeListener();
       !this.state.isVisible && this.setState({ isVisible: true });
