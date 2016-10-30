@@ -6,9 +6,9 @@ You can use this component to trigger an entrance animation for instance !
 ## How it works ?
 
 The component simply passes a ```isVisible``` props to your component.
- 
+
 ## Features
- 
+
 - Don't rely on [findDOMNode](https://facebook.github.io/react/docs/top-level-api.html#reactdom.finddomnode). So it can be used with a stateless component.
 - Transfer all the props to the wrapped component
 - Visibility can be tracked only once
@@ -43,7 +43,7 @@ const ComponentToTrack = (props) => {
     const style = {
         background: props.isVisible ? 'red' : 'blue'
     };
-    
+
     return <div style={style}>Hello</div>;
 }
 
@@ -63,17 +63,18 @@ const YourApp = () => {
 
 |props           |type            |default|description|
 |----------------|----------------|-------|-----------|
-|once            |bool            |false|If set to true track the visibility only once and remove the event listeners| 
+|once            |bool            |false|If set to true track the visibility only once and remove the event listeners|
 |throttleInterval|int             |150|Tweak the event listeners. See [David Corbacho's article](https://css-tricks.com/debouncing-throttling-explained-examples/)|
 |children        |React Components|  -  |Can be on or many react components|
 |style           |object          |  -  |Style attributes|
 |className       |string          |  -  |Css classes|
+|offset          |number          |  0  |Allows you to specify how far below or above of the viewport you want to set isVisible to `true`|
 
 ## TODO
 
 - [ ] Check for partial visibility
 
-## Contributions 
+## Contributions
 
 Any contributions is welcome !
 
