@@ -80,8 +80,13 @@ describe('<TrackVisibility />', () => {
       expect(wrapper.state('isVisible')).to.equal(false);
 
     });
+    it('Shouldn\'t have offset prop by default', () => {
+      const wrapper = shallow(<TrackVisibility />);
+      const props = wrapper.props();
+      expect(hasProp(props, 'offset')).to.equal(false);
+    });
     it('Should have offset prop if set', () => {
-        const wrapper = shallow(<TrackVisibility offset={500} />);
+      const wrapper = shallow(<TrackVisibility offset={500} />);
       const props = wrapper.props();
       expect(hasProp(props, 'offset')).to.equal(true);
       expect(props.offset).to.equal(500);
