@@ -108,18 +108,21 @@ return /******/ (function(modules) { // webpackBootstrap
 	    if (!Number.isInteger(currentProp) || currentProp < 0) {
 	      return new Error('The ' + propName + ' prop you provided to ' + component + ' is not a valid integer >= 0.');
 	    }
+	    return null;
 	  },
 
 	  children: _react.PropTypes.oneOfType([_react.PropTypes.element, _react.PropTypes.arrayOf(_react.PropTypes.element)]),
 	  style: _react.PropTypes.object,
-	  className: _react.PropTypes.string
+	  className: _react.PropTypes.string,
+	  offset: _react.PropTypes.number
 	};
 
 	var defaultProps = {
 	  once: false,
 	  throttleInterval: 150,
 	  style: null,
-	  className: null
+	  className: null,
+	  offset: 0
 	};
 
 	var TrackVisibility = function (_Component) {
@@ -160,6 +163,7 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	      this.props.className !== null && (props.className = this.props.className);
 	      this.props.style !== null && (props.style = this.props.style);
+	      this.props.offset !== 0 && (props.offset = this.props.offset);
 
 	      return props;
 	    }
@@ -190,8 +194,9 @@ return /******/ (function(modules) { // webpackBootstrap
 	    value: function isComponentVisible() {
 	      var rect = this.nodeRef.getBoundingClientRect();
 	      var html = document.documentElement;
+	      var offset = this.props.offset;
 
-	      if (rect.top >= 0 && rect.left >= 0 && rect.bottom <= (window.innerHeight || html.clientHeight) && rect.right <= (window.innerWidth || html.clientWidth)) {
+	      if (rect.top >= 0 && rect.left >= 0 && rect.bottom <= (window.innerHeight + offset || html.clientHeight + offset) && rect.right <= (window.innerWidth + offset || html.clientWidth + offset)) {
 	        this.props.once && this.removeListener();
 	        !this.state.isVisible && this.setState({ isVisible: true });
 	      } else {
