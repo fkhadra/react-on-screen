@@ -1,6 +1,6 @@
 {
   "name": "react-on-screen",
-  "version": "1.0.2",
+  "version": "1.1.0",
   "description": "A wrapper component to track if your react component is visible on screen",
   "keywords": [
     "react",
