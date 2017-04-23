@@ -1,5 +1,6 @@
 /* global window, document */
-import React, { Component, PropTypes } from 'react';
+import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 import throttle from 'lodash.throttle';
 
 const propTypes = {
@@ -26,6 +27,7 @@ const defaultProps = {
   style: null,
   className: null,
   offset: 0,
+  children: null
 };
 
 export default class TrackVisibility extends Component {
