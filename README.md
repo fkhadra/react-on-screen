@@ -24,6 +24,7 @@ Using [npm](https://www.npmjs.com/) :
 
 ```
 $ npm install --save react-on-screen
+$ yarn add react-on-screen
 ```
 
 A UMD build is also available :
@@ -81,6 +82,14 @@ Any contributions is welcome !
 - Lint : ``` $ npm run lint ```
 - Test : ``` $ npm run test ```
 - Build : ``` $ npm run build // will lint and run test before ```
+
+## Release Notes
+
+### v1.1.1
+
+- switched to webpack2
+- Upgraded to stand alone prop-types
+
 
 ## License
 
