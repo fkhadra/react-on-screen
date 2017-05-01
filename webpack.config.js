@@ -24,20 +24,8 @@ const config = {
       }
     ]
   },
-  externals: [{
-    react: {
-      root: 'React',
-      commonjs2: 'react',
-      commonjs: 'react',
-      amd: 'react'
-    }
-  },
-    {
-      'cheerio': 'window',
-      'react/lib/ExecutionEnvironment': true,
-      'react/lib/ReactContext': true
-    }
-  ],
+  externals: ['react', 'prop-types', 'lodash.throttle'],
+
   plugins: [
     new webpack.LoaderOptionsPlugin({
       minimize: true,
