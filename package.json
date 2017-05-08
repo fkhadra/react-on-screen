@@ -22,14 +22,14 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/sniphpet/react-on-screen.git"
+    "url": "git+https://github.com/fkhadra/react-on-screen.git"
   },
-  "author": "Fadi Khadra  <fdkhadra@gmail.com> (https://sniphpet.github.io)",
+  "author": "Fadi Khadra  <fdkhadra@gmail.com> (https://fkhadra.github.io)",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/sniphpet/react-on-screen/issues"
+    "url": "https://github.com/fkhadra/react-on-screen/issues"
   },
-  "homepage": "https://github.com/sniphpet/react-on-screen#readme",
+  "homepage": "https://github.com/fkhadra/react-on-screen#readme",
   "devDependencies": {
     "babel-cli": "^6.11.4",
     "babel-loader": "^7.0.0",

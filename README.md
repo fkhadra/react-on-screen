@@ -1,4 +1,4 @@
-# React on screen [![npm](https://img.shields.io/npm/dt/react-on-screen.svg)]() [![npm](https://img.shields.io/npm/v/react-on-screen.svg)]() [![license](https://img.shields.io/github/license/sniphpet/react-on-screen.svg?maxAge=2592000)]()
+# React on screen [![npm](https://img.shields.io/npm/dt/react-on-screen.svg)]() [![npm](https://img.shields.io/npm/v/react-on-screen.svg)]() [![license](https://img.shields.io/github/license/fkhadra/react-on-screen.svg?maxAge=2592000)]()
 
 Provide a component to wrap your react component and check if there are visible on the screen.
 You can use this component to trigger an entrance animation for instance !
@@ -16,7 +16,7 @@ The component simply passes a ```isVisible``` props to your component.
 
 ## Demo
 
-View the [demo](https://sniphpet.github.io/react-on-screen/demo-react-on-screen.html).
+View the [demo](https://fkhadra.github.io/react-on-screen/demo-react-on-screen.html).
 
 ## Installation
 
