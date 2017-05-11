@@ -47,13 +47,15 @@
     "karma": "^1.2.0",
     "mocha": "^3.0.2",
     "react-addons-test-utils": "^15.3.0",
-    "react-dom": "^15.3.0",
     "sinon": "^2.1.0",
     "webpack": "^2.4.1"
   },
   "dependencies": {
     "lodash.throttle": "^4.1.1",
-    "prop-types": "^15.5.8",
-    "react": "^15.5.4"
+    "prop-types": "^15.5.8"
+  },
+  "peerDependencies": {
+    "react": "^15.5.4",
+    "react-dom": "^15.5.4"
   }
 }

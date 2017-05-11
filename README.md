@@ -85,6 +85,10 @@ Any contributions is welcome !
 
 ## Release Notes
 
+### v1.1.4
+
+- React and react-dom are now peer dependencies
+
 ### v1.1.1
 
 - switched to webpack2
