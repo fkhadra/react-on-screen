@@ -8,7 +8,9 @@ const propTypes = {
   throttleInterval(props, propName, component) {
     const currentProp = props[propName];
     if (!Number.isInteger(currentProp) || currentProp < 0) {
-      return new Error(`The ${propName} prop you provided to ${component} is not a valid integer >= 0.`);
+      return new Error(
+        `The ${propName} prop you provided to ${component} is not a valid integer >= 0.`,
+      );
     }
     return null;
   },
@@ -34,7 +36,7 @@ export default class TrackVisibility extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      isVisible: false
+      isVisible: false,
     };
     this.isComponentVisible = this.isComponentVisible.bind(this);
     /* Store reference to be able to remove the event listener */
@@ -72,9 +74,8 @@ export default class TrackVisibility extends Component {
   }
 
   getChildren() {
-    return React.Children.map(
-      this.props.children,
-      child => React.cloneElement(child, { ...this.getChildProps(), isVisible: this.state.isVisible })
+    return React.Children.map(this.props.children, child =>
+      React.cloneElement(child, { ...this.getChildProps(), isVisible: this.state.isVisible }),
     );
   }
 
