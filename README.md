@@ -70,10 +70,7 @@ const YourApp = () => {
 |style           |object          |  -  |Style attributes|
 |className       |string          |  -  |Css classes|
 |offset          |number          |  0  |Allows you to specify how far left or above of the viewport you want to set isVisible to `true`|
-
-## TODO
-
-- [ ] Check for partial visibility
+|partialVisibility|bool           |false|Set isVisible to true on element as soon as any part is in the viewport|
 
 ## Contributions
 
@@ -84,6 +81,10 @@ Any contributions is welcome !
 - Build : ``` $ npm run build // will lint and run test before ```
 
 ## Release Notes
+
+## v1.2.0
+
+- Added support for partial visibility
 
 ### v1.1.4
 
