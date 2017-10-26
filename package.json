@@ -16,7 +16,7 @@
     "lint": "eslint src/",
     "pretest": "npm run lint",
     "test": "jest",
-    "test:coverage": "jest --coverage",
+    "test:coverage": "jest --coverage && cat ./coverage/lcov.info | coveralls",
     "prebuild": "npm run test",
     "build": "NODE_ENV=production ./scripts/build.sh",
     "build-dev": "NODE_ENV=developement ./scripts/build.sh"
@@ -49,6 +49,7 @@
     "babel-loader": "^7.1.2",
     "babel-preset-env": "^1.6.0",
     "babel-preset-react-app": "^3.0.3",
+    "coveralls": "^3.0.0",
     "enzyme": "^3.1.0",
     "enzyme-adapter-react-16": "^1.0.0",
     "enzyme-to-json": "^3.1.4",
