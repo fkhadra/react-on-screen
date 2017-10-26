@@ -15,7 +15,7 @@
   "scripts": {
     "lint": "eslint src/",
     "pretest": "npm run lint",
-    "test": "jest",
+    "test": "jest --coverage",
     "prebuild": "npm run test",
     "build": "NODE_ENV=production ./scripts/build.sh",
     "build-dev": "NODE_ENV=developement ./scripts/build.sh"
@@ -35,17 +35,22 @@
     "setupFiles": [
       "raf/polyfill",
       "<rootDir>/setupTests.js"
+    ],
+    "snapshotSerializers": [
+      "enzyme-to-json/serializer"
     ]
   },
   "devDependencies": {
     "@types/react": "^16.0.18",
     "babel-cli": "^6.26.0",
     "babel-eslint": "^8.0.1",
+    "babel-jest": "^21.2.0",
     "babel-loader": "^7.1.2",
     "babel-preset-env": "^1.6.0",
     "babel-preset-react-app": "^3.0.3",
     "enzyme": "^3.1.0",
     "enzyme-adapter-react-16": "^1.0.0",
+    "enzyme-to-json": "^3.1.4",
     "eslint": "^4.7.2",
     "eslint-config-react-app": "^2.0.1",
     "eslint-plugin-flowtype": "^2.37.0",
@@ -58,6 +63,7 @@
     "raf": "^3.4.0",
     "react": "^16.0.0",
     "react-dom": "^16.0.0",
+    "react-test-renderer": "^16.0.0",
     "sinon": "^2.1.0",
     "webpack": "^3.8.1"
   },

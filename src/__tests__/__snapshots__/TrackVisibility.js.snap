@@ -1,0 +1,14 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`<TrackVisibility /> When rendering the component Can be rendered without children 1`] = `
+<TrackVisibility
+  className={null}
+  offset={0}
+  once={false}
+  partialVisibility={false}
+  style={null}
+  throttleInterval={150}
+>
+  <div />
+</TrackVisibility>
+`;
