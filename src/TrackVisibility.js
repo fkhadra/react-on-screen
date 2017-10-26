@@ -21,6 +21,7 @@ const propTypes = {
   style: PropTypes.object,
   className: PropTypes.string,
   offset: PropTypes.number,
+  partialVisibility: PropTypes.bool,
 };
 
 const defaultProps = {
@@ -29,7 +30,8 @@ const defaultProps = {
   style: null,
   className: null,
   offset: 0,
-  children: null
+  children: null,
+  partialVisibility: false,
 };
 
 export default class TrackVisibility extends Component {
@@ -84,16 +86,19 @@ export default class TrackVisibility extends Component {
     const html = document.documentElement;
     const offset = this.props.offset;
 
-    if (
-      rect.top >= 0 &&
-      rect.left >= 0 &&
-      rect.bottom <= (window.innerHeight + offset || html.clientHeight + offset) &&
-      rect.right <= (window.innerWidth + offset || html.clientWidth + offset)
-    ) {
+    const heightCheck = window.innerHeight + offset || html.clientHeight + offset;
+    const widthCheck = window.innerWidth + offset || html.clientWidth + offset;
+
+    let { top, left, bottom, right } = rect;
+
+    const isVisible = this.props.partialVisibility
+      ? top + rect.height >= 0 && left + rect.width >= 0 && right - rect.width <= widthCheck
+      : top >= 0 && left >= 0 && bottom <= heightCheck && right <= widthCheck;
+    if (isVisible) {
       this.props.once && this.removeListener();
-      !this.state.isVisible && this.setState({ isVisible: true });
+      !this.state.isVisible && this.setState({ isVisible });
     } else {
-      this.state.isVisible && this.setState({ isVisible: false });
+      this.state.isVisible && this.setState({ isVisible });
     }
   }
 
