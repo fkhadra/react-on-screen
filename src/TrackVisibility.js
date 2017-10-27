@@ -77,6 +77,10 @@ export default class TrackVisibility extends Component {
     this.isComponentVisible();
   }
 
+  shouldComponentUpdate(nextProps, nextState) {
+    return this.state.isVisible !== nextState.isVisible;
+  }
+
   componentWillUnmount() {
     this.removeListener();
   }
@@ -89,16 +93,6 @@ export default class TrackVisibility extends Component {
   removeListener() {
     window.removeEventListener("scroll", this.throttleCb);
     window.removeEventListener("resize", this.throttleCb);
-  }
-
-  getPropsToRender() {
-    const { className, style, offset } = this.props;
-
-    return {
-      ...(className !== null && { className }),
-      ...(style !== null && { style }),
-      ...(offset !== 0 && { offset })
-    };
   }
 
   getChildProps() {
@@ -131,19 +125,24 @@ export default class TrackVisibility extends Component {
       ? top + height >= 0 && left + width >= 0 && right - width <= widthCheck
       : top >= 0 && left >= 0 && bottom <= heightCheck && right <= widthCheck;
 
-    if (isVisible) {
-      once && this.removeListener();
-      !this.state.isVisible && this.setState({ isVisible });
-    } else {
-      this.state.isVisible && this.setState({ isVisible });
+    if (isVisible && once) {
+      this.removeListener();
     }
+
+    this.setState({ isVisible });
   }
 
   setNodeRef = ref => this.nodeRef = ref;
 
   render() {
+    const { className, style } = this.props;
+    const props = {
+      ...(className !== null && { className }),
+      ...(style !== null && { style }),
+    };
+
     return (
-      <div ref={this.setNodeRef} {...this.getPropsToRender()}>
+      <div ref={this.setNodeRef} {...props}>
         {this.getChildren()}
       </div>
     );

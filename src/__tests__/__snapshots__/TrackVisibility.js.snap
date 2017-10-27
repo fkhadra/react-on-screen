@@ -12,3 +12,29 @@ exports[`<TrackVisibility /> When rendering the component Can be rendered withou
   <div />
 </TrackVisibility>
 `;
+
+exports[`<TrackVisibility /> When rendering the component Can check partial visibilty 1`] = `
+<TrackVisibility
+  className={null}
+  offset={0}
+  once={false}
+  partialVisibility={true}
+  style={null}
+  throttleInterval={150}
+>
+  <div />
+</TrackVisibility>
+`;
+
+exports[`<TrackVisibility /> When rendering the component Should fallback clientHeight when window propeties are not defined 1`] = `
+<TrackVisibility
+  className={null}
+  offset={0}
+  once={false}
+  partialVisibility={false}
+  style={null}
+  throttleInterval={150}
+>
+  <div />
+</TrackVisibility>
+`;

@@ -17,6 +17,18 @@ describe('<TrackVisibility />', () => {
       expect(wrapper).toMatchSnapshot();
     });
 
+    it('Can check partial visibilty', () => {
+      const wrapper = mount(<TrackVisibility partialVisibility/>);
+      expect(wrapper).toMatchSnapshot();
+    });
+
+    it('Should fallback clientHeight when window propeties are not defined', () => {
+      const wrapper = mount(<TrackVisibility />);
+      window.innerHeight = null;
+      window.innerWidth = null;
+      expect(wrapper).toMatchSnapshot();
+    });
+
     it('Should bind event to window on mount', () => {
       window.addEventListener = jest.fn();    
       mount(<TrackVisibility />);
@@ -30,7 +42,29 @@ describe('<TrackVisibility />', () => {
       expect(window.removeEventListener).toHaveBeenCalled();
     });
 
-    it('Allows us to set props', () => {
+    it('Should remove event from window when visibility is tracked once', () => {
+      window.removeEventListener = jest.fn();    
+      const wrapper = mount(<TrackVisibility once={true} />);
+      wrapper.setState({isVisible: true});
+      
+      expect(window.removeEventListener).toHaveBeenCalled();
+    });
+
+    it('Should merge className and style', () => {
+      const wrapper = mount(<TrackVisibility className="plop" style={{ background: 'red' }} />);
+      
+      expect(wrapper.props().hasOwnProperty("className")).toBe(true);
+      expect(wrapper.props().hasOwnProperty("style")).toBe(true);
+    });
+
+    it('Should use', () => {
+      const wrapper = mount(<TrackVisibility className="plop" style={{ background: 'red' }} />);
+      
+      expect(wrapper.props().hasOwnProperty("className")).toBe(true);
+      expect(wrapper.props().hasOwnProperty("style")).toBe(true);
+    });
+
+    it('Should merge any props passed down', () => {
       const wrapper = mount(<TrackVisibility bar="baz" />);
       expect(wrapper.props().bar).toBe("baz");
       wrapper.setProps({ bar: "foo" });
@@ -72,20 +106,5 @@ describe('<TrackVisibility />', () => {
       expect(hasProp(props, 'once')).toBe(false);
       expect(hasProp(props, 'throttleInterval')).toBe(false);
     });
-
-    it('Can update state', () => {
-      const wrapper = mount(<TrackVisibility />);
-      wrapper.setState({isVisible: true});
-      expect(wrapper.state('isVisible')).toBe(true);
-      wrapper.setState({isVisible: false});
-      expect(wrapper.state('isVisible')).toBe(false);
-    });
-
-    // it('Should have offset prop if set', () => {
-    //   const wrapper = shallow(<TrackVisibility offset={500} />);
-    //   const props = wrapper.props();
-    //   expect(hasProp(props, 'offset')).to.equal(true);
-    //   expect(props.offset).to.equal(500);
-    // });
   });
 });
