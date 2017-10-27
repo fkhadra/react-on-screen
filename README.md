@@ -1,26 +1,12 @@
 # React on screen [![npm](https://img.shields.io/npm/dt/react-on-screen.svg)]() [![npm](https://img.shields.io/npm/v/react-on-screen.svg)]() [![license](https://img.shields.io/github/license/fkhadra/react-on-screen.svg?maxAge=2592000)]()
 
-Provide a component to wrap your react component and check if there are visible on the screen.
-You can use this component to trigger an entrance animation for instance !
-
-## How it works ?
-
-The component simply passes a ```isVisible``` props to your component.
-
-## Features
-
-- Don't rely on [findDOMNode](https://facebook.github.io/react/docs/top-level-api.html#reactdom.finddomnode). So it can be used with a stateless component.
-- Transfer all the props to the wrapped component
-- Visibility can be tracked only once
-- Event listeners are implemented with throttle to avoid  memory leaks or performance issues
+😎 Check if your react component are visible on the screen without pain and with performance in mind 😎!
 
 ## Demo
 
 View the [demo](https://fkhadra.github.io/react-on-screen/demo-react-on-screen.html).
 
 ## Installation
-
-Using [npm](https://www.npmjs.com/) :
 
 ```
 $ npm install --save react-on-screen
@@ -82,9 +68,12 @@ Any contributions is welcome !
 
 ## Release Notes
 
-## v1.2.0
+## v2.0.0
 
 - Added support for partial visibility
+- Internal rewrite
+- CI intregration
+- Better Test suite
 
 ### v1.1.4
 
