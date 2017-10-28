@@ -12,6 +12,7 @@
     "screen"
   ],
   "main": "lib/index.js",
+  "typings": "./index.d.ts",
   "scripts": {
     "lint": "eslint src/",
     "pretest": "npm run lint",
