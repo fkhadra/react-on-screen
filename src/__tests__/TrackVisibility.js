@@ -22,6 +22,15 @@ describe('<TrackVisibility />', () => {
       expect(wrapper).toMatchSnapshot();
     });
 
+    it("Should be able to use a render props", () => {
+      const wrapper = mount(
+        <TrackVisibility>
+          {({ isVisible }) => <Dumb />}
+        </TrackVisibility>
+      );
+      expect(wrapper).toMatchSnapshot();
+    });
+
     it('Should fallback clientHeight when window propeties are not defined', () => {
       const wrapper = mount(<TrackVisibility />);
       window.innerHeight = null;

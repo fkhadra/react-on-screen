@@ -27,6 +27,7 @@ export default class TrackVisibility extends Component {
      * Pass one or more children to track
      */
     children: PropTypes.oneOfType([
+      PropTypes.func,
       PropTypes.element,
       PropTypes.arrayOf(PropTypes.element)
     ]),
@@ -104,8 +105,35 @@ export default class TrackVisibility extends Component {
     });
     return props;
   }
-
+  
+  isComponentVisible = () => {
+    const html = document.documentElement;
+    const { offset, partialVisibility, once } = this.props;
+    const { top, left, bottom, right, width, height } = this.nodeRef.getBoundingClientRect();
+    const heightCheck = window.innerHeight + offset || html.clientHeight + offset;
+    const widthCheck = window.innerWidth + offset || html.clientWidth + offset;
+    
+    const isVisible = partialVisibility
+    ? top + height >= 0 && left + width >= 0 && right - width <= widthCheck
+    : top >= 0 && left >= 0 && bottom <= heightCheck && right <= widthCheck;
+    
+    if (isVisible && once) {
+      this.removeListener();
+    }
+    
+    this.setState({ isVisible });
+  }
+  
+  setNodeRef = ref => this.nodeRef = ref;
+  
   getChildren() {
+    if(typeof this.props.children === "function") {
+      return this.props.children({
+        ...this.getChildProps(),
+        isVisible: this.state.isVisible
+      })
+    }
+
     return React.Children.map(this.props.children, child =>
       React.cloneElement(child, {
         ...this.getChildProps(),
@@ -113,26 +141,6 @@ export default class TrackVisibility extends Component {
       })
     );
   }
-
-  isComponentVisible = () => {
-    const html = document.documentElement;
-    const { offset, partialVisibility, once } = this.props;
-    const { top, left, bottom, right, width, height } = this.nodeRef.getBoundingClientRect();
-    const heightCheck = window.innerHeight + offset || html.clientHeight + offset;
-    const widthCheck = window.innerWidth + offset || html.clientWidth + offset;
-
-    const isVisible = partialVisibility
-      ? top + height >= 0 && left + width >= 0 && right - width <= widthCheck
-      : top >= 0 && left >= 0 && bottom <= heightCheck && right <= widthCheck;
-
-    if (isVisible && once) {
-      this.removeListener();
-    }
-
-    this.setState({ isVisible });
-  }
-
-  setNodeRef = ref => this.nodeRef = ref;
 
   render() {
     const { className, style } = this.props;
