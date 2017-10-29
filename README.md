@@ -1,6 +1,8 @@
-# React on screen [![npm](https://img.shields.io/npm/dt/react-on-screen.svg)]() [![npm](https://img.shields.io/npm/v/react-on-screen.svg)]() [![license](https://img.shields.io/github/license/fkhadra/react-on-screen.svg?maxAge=2592000)]()
+# React on screen [![npm](https://img.shields.io/npm/dt/react-on-screen.svg)]() [![npm](https://img.shields.io/npm/v/react-on-screen.svg)]() [![license](https://img.shields.io/github/license/fkhadra/react-on-screen.svg?maxAge=2592000)]() [![Coverage Status](https://coveralls.io/repos/github/fkhadra/react-on-screen/badge.svg?branch=master)](https://coveralls.io/github/fkhadra/react-on-screen?branch=master)
 
 😎 Check if your react component are visible on the screen without pain and with performance in mind 😎!
+
+![react-on-screen-demo](https://user-images.githubusercontent.com/5574267/32147681-74918d80-bceb-11e7-98d4-1cbc04b29eb4.gif)
 
 ## Demo
 
@@ -19,18 +21,18 @@ A UMD build is also available :
 <script src="./dist/ReactOnScreen.min.js"></script>
 ```
 
-## What's it looks like?
+## Usage
+
+### Simple
 
 ```javascript
 import React from 'react';
-import TrackVisibility from 'react-on-screen'; // CommonJs : require('react-on-screen').default
+import TrackVisibility from 'react-on-screen';
 
-
-const ComponentToTrack = (props) => {
+const ComponentToTrack = ({ isVisible }) => {
     const style = {
-        background: props.isVisible ? 'red' : 'blue'
+        background: isVisible ? 'red' : 'blue'
     };
-
     return <div style={style}>Hello</div>;
 }
 
@@ -43,7 +45,62 @@ const YourApp = () => {
        {/* Some Stuff */}
     );
 }
+```
 
+### Using a render props
+
+You can use a render props is you want to !
+
+```js
+const YourApp = () => {
+    return (
+        <TrackVisibility>
+            {({ isVisible }) => isVisible && <ComponentToTrack />}
+        </TrackVisibility>
+    );
+}
+```
+
+### Track the visibility only once
+
+For many cases you may want to track the visibility only once. This can be done simply as follow :
+
+```js
+const YourApp = () => {
+    return (
+        <TrackVisibility once>
+            <ComponentToTrack />
+        </TrackVisibility>
+    );
+}
+```
+
+### Defining offset
+
+Using `offset` props can be usefull if you want to lazy load an image for instance.
+
+```js
+const YourApp = () => {
+    return (
+        <TrackVisibility offset={1000}>
+            {({ isVisible }) => isVisible ? <ComponentToTrack /> : <Loading />}
+        </TrackVisibility>
+    );
+}
+```
+
+### Partial visibility
+
+You may want to consider that a component is visible as soon as a part of the component is visible on screen. You can use the `partialVisibility` props for that.
+
+```js
+const YourApp = () => {
+    return (
+        <TrackVisibility partialVisibility>
+            {({ isVisible }) => <ComponentToTrack />}
+        </TrackVisibility>
+    );
+}
 ```
 
 ## Api
@@ -68,12 +125,13 @@ Any contributions is welcome !
 
 ## Release Notes
 
-## v2.0.0
+### v2.0.0
 
-- Added support for partial visibility
+- Added support for partial visibility. Thanks to [audiolion](https://github.com/audiolion)
 - Internal rewrite
 - CI intregration
 - Better Test suite
+- Typescript definition !
 
 ### v1.1.4
 
