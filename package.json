@@ -12,10 +12,12 @@
     "screen"
   ],
   "main": "lib/index.js",
+  "typings": "./index.d.ts",
   "scripts": {
     "lint": "eslint src/",
     "pretest": "npm run lint",
-    "test": "mocha --compilers js:babel-core/register --require jsdomSetup.js --recursive test/",
+    "test": "jest",
+    "test:coverage": "jest --coverage && cat ./coverage/lcov.info | coveralls",
     "prebuild": "npm run test",
     "build": "NODE_ENV=production ./scripts/build.sh",
     "build-dev": "NODE_ENV=developement ./scripts/build.sh"
@@ -30,32 +32,49 @@
     "url": "https://github.com/fkhadra/react-on-screen/issues"
   },
   "homepage": "https://github.com/fkhadra/react-on-screen#readme",
+  "jest": {
+    "verbose": true,
+    "setupFiles": [
+      "raf/polyfill",
+      "<rootDir>/setupTests.js"
+    ],
+    "snapshotSerializers": [
+      "enzyme-to-json/serializer"
+    ]
+  },
   "devDependencies": {
-    "babel-cli": "^6.11.4",
-    "babel-loader": "^7.0.0",
-    "babel-preset-env": "^1.4.0",
-    "babel-preset-react": "^6.11.1",
-    "babel-preset-stage-0": "^6.5.0",
-    "chai": "^3.5.0",
-    "enzyme": "^2.4.1",
-    "eslint": "^3.2.2",
-    "eslint-config-airbnb": "^14.1.0",
-    "eslint-plugin-import": "^2.2.0",
-    "eslint-plugin-jsx-a11y": "^4.0.0",
-    "eslint-plugin-react": "^6.0.0",
-    "jsdom": "^9.4.2",
-    "karma": "^1.2.0",
-    "mocha": "^3.0.2",
-    "react-addons-test-utils": "^15.3.0",
+    "@types/react": "^16.0.18",
+    "babel-cli": "^6.26.0",
+    "babel-eslint": "^8.0.1",
+    "babel-jest": "^21.2.0",
+    "babel-loader": "^7.1.2",
+    "babel-preset-env": "^1.6.0",
+    "babel-preset-react-app": "^3.0.3",
+    "coveralls": "^3.0.0",
+    "enzyme": "^3.1.0",
+    "enzyme-adapter-react-16": "^1.0.0",
+    "enzyme-to-json": "^3.1.4",
+    "eslint": "^4.7.2",
+    "eslint-config-react-app": "^2.0.1",
+    "eslint-plugin-flowtype": "^2.37.0",
+    "eslint-plugin-import": "^2.7.0",
+    "eslint-plugin-jsx-a11y": "^5.1.1",
+    "eslint-plugin-react": "^7.4.0",
+    "jest": "^21.2.1",
+    "jest-cli": "^21.2.1",
+    "raf": "^3.4.0",
+    "react": "^16.0.0",
+    "react-dom": "^16.0.0",
+    "react-test-renderer": "^16.0.0",
     "sinon": "^2.1.0",
-    "webpack": "^2.4.1"
+    "webpack": "^3.8.1"
   },
   "dependencies": {
     "lodash.throttle": "^4.1.1",
-    "prop-types": "^15.5.8"
+    "prop-types": "^15.6.0"
   },
   "peerDependencies": {
-    "react": "^15.5.4",
-    "react-dom": "^15.5.4"
+    "react": ">=15.0.0",
+    "react-dom": ">=15.0.0"
   }
 }

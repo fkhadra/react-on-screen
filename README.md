@@ -1,26 +1,14 @@
-# React on screen [![npm](https://img.shields.io/npm/dt/react-on-screen.svg)]() [![npm](https://img.shields.io/npm/v/react-on-screen.svg)]() [![license](https://img.shields.io/github/license/fkhadra/react-on-screen.svg?maxAge=2592000)]()
+# React on screen [![npm](https://img.shields.io/npm/dt/react-on-screen.svg)]() [![npm](https://img.shields.io/npm/v/react-on-screen.svg)]() [![license](https://img.shields.io/github/license/fkhadra/react-on-screen.svg?maxAge=2592000)]() [![Coverage Status](https://coveralls.io/repos/github/fkhadra/react-on-screen/badge.svg?branch=master)](https://coveralls.io/github/fkhadra/react-on-screen?branch=master)
 
-Provide a component to wrap your react component and check if there are visible on the screen.
-You can use this component to trigger an entrance animation for instance !
+😎 Check if your react component are visible on the screen without pain and with performance in mind 😎!
 
-## How it works ?
-
-The component simply passes a ```isVisible``` props to your component.
-
-## Features
-
-- Don't rely on [findDOMNode](https://facebook.github.io/react/docs/top-level-api.html#reactdom.finddomnode). So it can be used with a stateless component.
-- Transfer all the props to the wrapped component
-- Visibility can be tracked only once
-- Event listeners are implemented with throttle to avoid  memory leaks or performance issues
+![react-on-screen-demo](https://user-images.githubusercontent.com/5574267/32147681-74918d80-bceb-11e7-98d4-1cbc04b29eb4.gif)
 
 ## Demo
 
 View the [demo](https://fkhadra.github.io/react-on-screen/demo-react-on-screen.html).
 
 ## Installation
-
-Using [npm](https://www.npmjs.com/) :
 
 ```
 $ npm install --save react-on-screen
@@ -33,18 +21,18 @@ A UMD build is also available :
 <script src="./dist/ReactOnScreen.min.js"></script>
 ```
 
-## What's it looks like?
+## Usage
+
+### Simple
 
 ```javascript
 import React from 'react';
-import TrackVisibility from 'react-on-screen'; // CommonJs : require('react-on-screen').default
+import TrackVisibility from 'react-on-screen';
 
-
-const ComponentToTrack = (props) => {
+const ComponentToTrack = ({ isVisible }) => {
     const style = {
-        background: props.isVisible ? 'red' : 'blue'
+        background: isVisible ? 'red' : 'blue'
     };
-
     return <div style={style}>Hello</div>;
 }
 
@@ -57,7 +45,62 @@ const YourApp = () => {
        {/* Some Stuff */}
     );
 }
+```
 
+### Using a render props
+
+You can use a render props is you want to !
+
+```js
+const YourApp = () => {
+    return (
+        <TrackVisibility>
+            {({ isVisible }) => isVisible && <ComponentToTrack />}
+        </TrackVisibility>
+    );
+}
+```
+
+### Track the visibility only once
+
+For many cases you may want to track the visibility only once. This can be done simply as follow :
+
+```js
+const YourApp = () => {
+    return (
+        <TrackVisibility once>
+            <ComponentToTrack />
+        </TrackVisibility>
+    );
+}
+```
+
+### Defining offset
+
+Using `offset` props can be usefull if you want to lazy load an image for instance.
+
+```js
+const YourApp = () => {
+    return (
+        <TrackVisibility offset={1000}>
+            {({ isVisible }) => isVisible ? <ComponentToTrack /> : <Loading />}
+        </TrackVisibility>
+    );
+}
+```
+
+### Partial visibility
+
+You may want to consider that a component is visible as soon as a part of the component is visible on screen. You can use the `partialVisibility` props for that.
+
+```js
+const YourApp = () => {
+    return (
+        <TrackVisibility partialVisibility>
+            {({ isVisible }) => <ComponentToTrack />}
+        </TrackVisibility>
+    );
+}
 ```
 
 ## Api
@@ -70,10 +113,7 @@ const YourApp = () => {
 |style           |object          |  -  |Style attributes|
 |className       |string          |  -  |Css classes|
 |offset          |number          |  0  |Allows you to specify how far left or above of the viewport you want to set isVisible to `true`|
-
-## TODO
-
-- [ ] Check for partial visibility
+|partialVisibility|bool           |false|Set isVisible to true on element as soon as any part is in the viewport|
 
 ## Contributions
 
@@ -84,6 +124,14 @@ Any contributions is welcome !
 - Build : ``` $ npm run build // will lint and run test before ```
 
 ## Release Notes
+
+### v2.0.0
+
+- Added support for partial visibility. Thanks to [audiolion](https://github.com/audiolion)
+- Internal rewrite
+- CI intregration
+- Better Test suite
+- Typescript definition !
 
 ### v1.1.4
 
