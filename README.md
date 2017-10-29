@@ -4,6 +4,19 @@
 
 ![react-on-screen-demo](https://user-images.githubusercontent.com/5574267/32147681-74918d80-bceb-11e7-98d4-1cbc04b29eb4.gif)
 
+* [Demo](#demo)
+* [Installation](#installation)
+* [Usage](#usage)
+  + [Simple](#simple)
+  + [Using a render props](#using-a-render-props)
+  + [Track the visibility only once](#track-the-visibility-only-once)
+  + [Defining offset](#defining-offset)
+  + [Partial visibility](#partial-visibility)
+* [Api](#api)
+* [Contributions](#contributions)
+* [Release Notes](#release-notes)
+* [License](#license)
+
 ## Demo
 
 View the [demo](https://fkhadra.github.io/react-on-screen/demo-react-on-screen.html).
