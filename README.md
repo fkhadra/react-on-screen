@@ -2,6 +2,10 @@
 
 😎 Check if your react component are visible on the screen without pain and with performance in mind 😎!
 
+<a target='_blank' rel='nofollow' href='https://app.codesponsor.io/link/qxxWZzh3YmHPKmwHHm79SuG4/fkhadra/react-on-screen'>
+  <img alt='Sponsor' width='888' height='68' src='https://app.codesponsor.io/embed/qxxWZzh3YmHPKmwHHm79SuG4/fkhadra/react-on-screen.svg' />
+</a>
+
 ![react-on-screen-demo](https://user-images.githubusercontent.com/5574267/32147681-74918d80-bceb-11e7-98d4-1cbc04b29eb4.gif)
 
 * [Demo](#demo)
