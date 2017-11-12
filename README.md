@@ -142,6 +142,10 @@ Any contributions is welcome !
 
 ## Release Notes
 
+### v2.0.1
+
+- Fix issue #9. The component was not updated on prop changes
+
 ### v2.0.0
 
 - Added support for partial visibility. Thanks to [audiolion](https://github.com/audiolion)
