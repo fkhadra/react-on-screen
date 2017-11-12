@@ -78,10 +78,6 @@ export default class TrackVisibility extends Component {
     this.isComponentVisible();
   }
 
-  shouldComponentUpdate(nextProps, nextState) {
-    return this.state.isVisible !== nextState.isVisible;
-  }
-
   componentWillUnmount() {
     this.removeListener();
   }
