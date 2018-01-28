@@ -110,8 +110,8 @@ export default class TrackVisibility extends Component {
     const widthCheck = window.innerWidth + offset || html.clientWidth + offset;
     
     const isVisible = partialVisibility
-    ? top + height >= 0 && left + width >= 0 && right - width <= widthCheck
-    : top >= 0 && left >= 0 && bottom <= heightCheck && right <= widthCheck;
+      ? top + height >= 0 && left + width >= 0 && bottom - height <= heightCheck && right - width <= widthCheck
+      : top >= 0 && left >= 0 && bottom <= heightCheck && right <= widthCheck;
     
     if (isVisible && once) {
       this.removeListener();
