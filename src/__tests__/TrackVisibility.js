@@ -30,8 +30,8 @@ describe('<TrackVisibility />', () => {
       // Called twice, on initial render then mounting which triggers setState
       expect(renderProp).toHaveBeenCalledTimes(2)
       // first call sets isVisible to false as this is the default state
-      // Second render yields isVisible true as top, right, bottom, left are all 0
-      expect(renderProp).toHaveBeenLastCalledWith({ isVisible: true })
+      // Second render yields isVisible false as top, right, bottom, left are all 0
+      expect(renderProp).toHaveBeenLastCalledWith({ isVisible: false })
     });
   });
 
@@ -113,9 +113,50 @@ describe('<TrackVisibility />', () => {
 
       expect(renderProp).toHaveBeenLastCalledWith({ isVisible: true });
     });
+
+    it('Should remove event from window when visibility is tracked once', () => {
+      window.removeEventListener = jest.fn();
+      const nodeRef = {
+        getBoundingClientRect: () => ({
+          top: 758, right: 100, bottom: 858, left: 0, width: 100, height: 100
+        })
+      }
+      const wrapper = renderComponent(<TrackVisibility once={true} nodeRef={nodeRef} />);
+      
+      expect(window.removeEventListener).toHaveBeenCalled();
+    });
+  });
+
+  describe("when component has no size, i.e. display: none", () => {
+    it("shouldn't call the render prop with isVisible: false", () => {
+      const renderProp = jest.fn();
+      const nodeRef = {
+        getBoundingClientRect: () => ({
+          top: 0, right: 0, bottom: 0, left: 0, width: 0, height: 0
+        })
+      }
+      const wrapper = mount(
+        <TrackVisibility nodeRef={nodeRef}>
+          {renderProp}
+        </TrackVisibility>
+      );
+
+      expect(renderProp).toHaveBeenLastCalledWith({ isVisible: false });
+    });
   });
 
   describe('When rendering the component', ()=> {
+    let nodeRef;
+    beforeEach(() => {
+      window.innerHeight = 768;
+      window.innerWidth = 1024;
+      nodeRef = {
+        getBoundingClientRect: () => ({
+          top: 80, right: 100, bottom: 180, left: 0, width: 100, height: 100
+        })
+      }
+    });
+
     it('Can be rendered without children', () => {
       const wrapper = renderComponent(<TrackVisibility />);
       expect(wrapper).toMatchSnapshot();
@@ -144,15 +185,15 @@ describe('<TrackVisibility />', () => {
     });
 
     it('Should remove event from window on unmount', () => {
-      window.removeEventListener = jest.fn();    
+      window.removeEventListener = jest.fn();
       const wrapper = renderComponent(<TrackVisibility />);
       wrapper.unmount();
       expect(window.removeEventListener).toHaveBeenCalled();
     });
 
     it('Should remove event from window when visibility is tracked once', () => {
-      window.removeEventListener = jest.fn();    
-      const wrapper = renderComponent(<TrackVisibility once={true} />);
+      window.removeEventListener = jest.fn();
+      const wrapper = renderComponent(<TrackVisibility once={true} nodeRef={nodeRef} />);
       
       expect(window.removeEventListener).toHaveBeenCalled();
     });
