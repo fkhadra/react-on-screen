@@ -11,6 +11,19 @@ const Dumb = props => <div>Plop</div>;
 
 describe('<TrackVisibility />', () => {
 
+  describe("When mounting the component", () => {
+    it("should call the child component with the visibility", () => {
+      const renderProp = jest.fn();
+      const wrapper = mount(
+        <TrackVisibility>
+          {renderProp}
+        </TrackVisibility>
+      );
+      expect(renderProp).toHaveBeenCalledTimes(1)
+      expect(renderProp).toHaveBeenCalledWith({ isVisible: false })
+    });
+  });
+
   describe('When rendering the component', ()=> {
     it('Can be rendered without children', () => {
       const wrapper = mount(<TrackVisibility />);
