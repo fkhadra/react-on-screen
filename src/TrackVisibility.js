@@ -49,7 +49,13 @@ export default class TrackVisibility extends Component {
     /**
      * Update the visibility state as soon as a part of the tracked component is visible
      */
-    partialVisibility: PropTypes.bool
+    partialVisibility: PropTypes.bool,
+
+    /**
+     * Exposed for testing but allows node other than internal wrapping <div /> to be tracked
+     * for visibility
+     */
+    nodeRef: PropTypes.object
   };
 
   static defaultProps = {
@@ -59,7 +65,8 @@ export default class TrackVisibility extends Component {
     className: null,
     offset: 0,
     children: null,
-    partialVisibility: false
+    partialVisibility: false,
+    nodeRef: null
   };
   
   constructor(props) {
@@ -71,6 +78,8 @@ export default class TrackVisibility extends Component {
       this.isComponentVisible,
       this.props.throttleInterval
     );
+
+    props.nodeRef && this.setNodeRef(props.nodeRef);
   }
 
   componentDidMount() {
@@ -139,14 +148,14 @@ export default class TrackVisibility extends Component {
   }
 
   render() {
-    const { className, style } = this.props;
+    const { className, style, nodeRef } = this.props;
     const props = {
       ...(className !== null && { className }),
       ...(style !== null && { style }),
     };
 
     return (
-      <div ref={this.setNodeRef} {...props}>
+      <div ref={!nodeRef && this.setNodeRef} {...props}>
         {this.getChildren()}
       </div>
     );
