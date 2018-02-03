@@ -9,21 +9,45 @@ const hasProp = (Component, prop) => {
 
 const Dumb = props => <div>Plop</div>;
 
+const renderComponent = Comp => {
+  // Fake timers used to skip through setTimeout in componentDidMount
+  jest.useFakeTimers();
+  const wrapper = mount(Comp);
+  jest.runAllTimers();
+  return wrapper;
+}
+
 describe('<TrackVisibility />', () => {
+
+  describe("When mounting the component", () => {
+    it("should call the child component with the visibility", () => {
+      const renderProp = jest.fn();
+      const wrapper = renderComponent(
+        <TrackVisibility>
+          {renderProp}
+        </TrackVisibility>
+      );
+      // Called twice, on initial render then mounting which triggers setState
+      expect(renderProp).toHaveBeenCalledTimes(2)
+      // first call sets isVisible to false as this is the default state
+      // Second render yields isVisible true as top, right, bottom, left are all 0
+      expect(renderProp).toHaveBeenLastCalledWith({ isVisible: true })
+    });
+  });
 
   describe('When rendering the component', ()=> {
     it('Can be rendered without children', () => {
-      const wrapper = mount(<TrackVisibility />);
+      const wrapper = renderComponent(<TrackVisibility />);
       expect(wrapper).toMatchSnapshot();
     });
 
     it('Can check partial visibilty', () => {
-      const wrapper = mount(<TrackVisibility partialVisibility/>);
+      const wrapper = renderComponent(<TrackVisibility partialVisibility/>);
       expect(wrapper).toMatchSnapshot();
     });
 
     it("Should be able to use a render props", () => {
-      const wrapper = mount(
+      const wrapper = renderComponent(
         <TrackVisibility>
           {({ isVisible }) => <Dumb />}
         </TrackVisibility>
@@ -32,7 +56,7 @@ describe('<TrackVisibility />', () => {
     });
 
     it('Should fallback clientHeight when window propeties are not defined', () => {
-      const wrapper = mount(<TrackVisibility />);
+      const wrapper = renderComponent(<TrackVisibility />);
       window.innerHeight = null;
       window.innerWidth = null;
       expect(wrapper).toMatchSnapshot();
@@ -40,41 +64,40 @@ describe('<TrackVisibility />', () => {
 
     it('Should bind event to window on mount', () => {
       window.addEventListener = jest.fn();    
-      mount(<TrackVisibility />);
+      renderComponent(<TrackVisibility />);
       expect(window.addEventListener).toHaveBeenCalled();
     });
 
     it('Should remove event from window on unmount', () => {
       window.removeEventListener = jest.fn();    
-      const wrapper = mount(<TrackVisibility />);
+      const wrapper = renderComponent(<TrackVisibility />);
       wrapper.unmount();
       expect(window.removeEventListener).toHaveBeenCalled();
     });
 
     it('Should remove event from window when visibility is tracked once', () => {
       window.removeEventListener = jest.fn();    
-      const wrapper = mount(<TrackVisibility once={true} />);
-      wrapper.setState({isVisible: true});
+      const wrapper = renderComponent(<TrackVisibility once={true} />);
       
       expect(window.removeEventListener).toHaveBeenCalled();
     });
 
     it('Should merge className and style', () => {
-      const wrapper = mount(<TrackVisibility className="plop" style={{ background: 'red' }} />);
+      const wrapper = renderComponent(<TrackVisibility className="plop" style={{ background: 'red' }} />);
       
       expect(wrapper.props().hasOwnProperty("className")).toBe(true);
       expect(wrapper.props().hasOwnProperty("style")).toBe(true);
     });
 
     it('Should use', () => {
-      const wrapper = mount(<TrackVisibility className="plop" style={{ background: 'red' }} />);
+      const wrapper = renderComponent(<TrackVisibility className="plop" style={{ background: 'red' }} />);
       
       expect(wrapper.props().hasOwnProperty("className")).toBe(true);
       expect(wrapper.props().hasOwnProperty("style")).toBe(true);
     });
 
     it('Should merge any props passed down', () => {
-      const wrapper = mount(<TrackVisibility bar="baz" />);
+      const wrapper = renderComponent(<TrackVisibility bar="baz" />);
       expect(wrapper.props().bar).toBe("baz");
       wrapper.setProps({ bar: "foo" });
       expect(wrapper.props().bar).toBe("foo");
@@ -83,14 +106,14 @@ describe('<TrackVisibility />', () => {
     it('Throws an error if throttleInterval is not a valid integer >= 0', () => {
       const stub = sinon.stub(console, 'error');
       [-1, 'dsqdqsqs', 1.10].forEach((v) => {
-        mount(<TrackVisibility throttleInterval={v}/>);
+        renderComponent(<TrackVisibility throttleInterval={v}/>);
         expect(stub.calledOnce).toBe(true);
       });
       console.error.restore();
     });
 
     it('Should pass isVisible to children as prop', () => {
-      const wrapper = mount(
+      const wrapper = renderComponent(
         <TrackVisibility>
           <Dumb />
         </TrackVisibility>
@@ -99,7 +122,7 @@ describe('<TrackVisibility />', () => {
     });
 
     it('Should transfer all the props provided to children but omit own props [once, throttleInterval, className, style]', () => {
-      const wrapper = mount(
+      const wrapper = renderComponent(
         <TrackVisibility foo="bar" baz="foobar">
           <Dumb />
         </TrackVisibility>
