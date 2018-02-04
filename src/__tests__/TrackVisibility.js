@@ -125,6 +125,74 @@ describe('<TrackVisibility />', () => {
       
       expect(window.removeEventListener).toHaveBeenCalled();
     });
+
+    describe("with an offset", () => {
+      const offset = 100;
+
+      it("shouldn't render components off the top by more than the offset", () => {
+        const renderProp = jest.fn();
+        const nodeRef = {
+          getBoundingClientRect: () => ({
+            top: -300, right: 100, bottom: -200, left: 0, width: 100, height: 100
+          })
+        }
+        const wrapper = renderComponent(
+          <TrackVisibility partialVisibility nodeRef={nodeRef} offset={offset}>
+            {renderProp}
+          </TrackVisibility>
+        );
+
+        expect(renderProp).toHaveBeenLastCalledWith({ isVisible: false });
+      });
+
+      it("shouldn't render components off the bottom by more than the offset", () => {
+        const renderProp = jest.fn();
+        const nodeRef = {
+          getBoundingClientRect: () => ({
+            top: 968, right: 100, bottom: 1068, left: 0, width: 100, height: 100
+          })
+        }
+        const wrapper = renderComponent(
+          <TrackVisibility partialVisibility nodeRef={nodeRef} offset={offset}>
+            {renderProp}
+          </TrackVisibility>
+        );
+
+        expect(renderProp).toHaveBeenLastCalledWith({ isVisible: false });
+      });
+
+      it("should render components partially visible at the top when within offset", () => {
+        const renderProp = jest.fn();
+        const nodeRef = {
+          getBoundingClientRect: () => ({
+            top: -150, right: 100, bottom: -50, left: 0, width: 100, height: 100
+          })
+        }
+        const wrapper = renderComponent(
+          <TrackVisibility partialVisibility nodeRef={nodeRef} offset={offset}>
+            {renderProp}
+          </TrackVisibility>
+        );
+
+        expect(renderProp).toHaveBeenLastCalledWith({ isVisible: true });
+      });
+
+      it("should render components partially visible at the bottom when within offset", () => {
+        const renderProp = jest.fn();
+        const nodeRef = {
+          getBoundingClientRect: () => ({
+            top: 818, right: 100, bottom: 918, left: 0, width: 100, height: 100
+          })
+        }
+        const wrapper = renderComponent(
+          <TrackVisibility partialVisibility nodeRef={nodeRef} offset={offset}>
+            {renderProp}
+          </TrackVisibility>
+        );
+
+        expect(renderProp).toHaveBeenLastCalledWith({ isVisible: true });
+      });
+    });
   });
 
   describe("when component has no size, i.e. display: none", () => {

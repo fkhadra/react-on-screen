@@ -111,27 +111,37 @@ export default class TrackVisibility extends Component {
     return props;
   }
 
-  isVisible = ({ top, left, bottom, right, width, height }, widthCheck, heightCheck) => {
+  isVisible = ({ top, left, bottom, right, width, height }, windowWidth, windowHeight) => {
+    const { offset, partialVisibility } = this.props;
+
     if (top + right + bottom + left === 0) {
       return false;
     }
 
-    return this.props.partialVisibility
-      ? top + height >= 0
-        && left + width >= 0
+    const topThreshold = 0 - offset;
+    const leftThreshold = 0 - offset;
+    const widthCheck = windowWidth + offset;
+    const heightCheck = windowHeight + offset;
+
+    return partialVisibility
+      ? top + height >= topThreshold
+        && left + width >= leftThreshold
         && bottom - height <= heightCheck
         && right - width <= widthCheck
-      : top >= 0 && left >= 0 && bottom <= heightCheck && right <= widthCheck;
+      : top >= topThreshold
+        && left >= leftThreshold
+        && bottom <= heightCheck
+        && right <= widthCheck;
   }
   
   isComponentVisible = () => {
     const html = document.documentElement;
-    const { offset, once } = this.props;
+    const { once } = this.props;
     const boundingClientRect = this.nodeRef.getBoundingClientRect();
-    const heightCheck = window.innerHeight + offset || html.clientHeight + offset;
-    const widthCheck = window.innerWidth + offset || html.clientWidth + offset;
+    const windowWidth = window.innerWidth || html.clientWidth;
+    const windowHeight = window.innerHeight || html.clientHeight;
     
-    const isVisible = this.isVisible(boundingClientRect, widthCheck, heightCheck);
+    const isVisible = this.isVisible(boundingClientRect, windowWidth, windowHeight);
     
     if (isVisible && once) {
       this.removeListener();
