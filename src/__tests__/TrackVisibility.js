@@ -196,7 +196,7 @@ describe('<TrackVisibility />', () => {
   });
 
   describe("when component has no size, i.e. display: none", () => {
-    it("shouldn't call the render prop with isVisible: false", () => {
+    it("should call the render prop with isVisible: false", () => {
       const renderProp = jest.fn();
       const nodeRef = {
         getBoundingClientRect: () => ({
