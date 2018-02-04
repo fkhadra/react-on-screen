@@ -35,14 +35,89 @@ describe('<TrackVisibility />', () => {
     });
   });
 
-  describe('When rendering the component', ()=> {
-    it('Can be rendered without children', () => {
-      const wrapper = renderComponent(<TrackVisibility />);
-      expect(wrapper).toMatchSnapshot();
+  describe("when partially visible", () => {
+    beforeEach(() => {
+      window.innerHeight = 768;
+      window.innerWidth = 1024;
+    });
+    afterEach(() => {
+      window.innerHeight = null;
+      window.innerWidth = null;
     });
 
     it('Can check partial visibilty', () => {
       const wrapper = renderComponent(<TrackVisibility partialVisibility/>);
+      expect(wrapper).toMatchSnapshot();
+    });
+
+    it("shouldn't render components off the top", () => {
+      const renderProp = jest.fn();
+      const nodeRef = {
+        getBoundingClientRect: () => ({
+          top: -2000, right: 100, bottom: -1900, left: 0, width: 100, height: 100
+        })
+      }
+      const wrapper = renderComponent(
+        <TrackVisibility partialVisibility nodeRef={nodeRef}>
+          {renderProp}
+        </TrackVisibility>
+      );
+
+      expect(renderProp).toHaveBeenLastCalledWith({ isVisible: false });
+    });
+
+    it("shouldn't render components off the bottom", () => {
+      const renderProp = jest.fn();
+      const nodeRef = {
+        getBoundingClientRect: () => ({
+          top: 1900, right: 100, bottom: 2000, left: 0, width: 100, height: 100
+        })
+      }
+      const wrapper = renderComponent(
+        <TrackVisibility partialVisibility nodeRef={nodeRef}>
+          {renderProp}
+        </TrackVisibility>
+      );
+
+      expect(renderProp).toHaveBeenLastCalledWith({ isVisible: false });
+    });
+
+    it("should render components partially visible at the top", () => {
+      const renderProp = jest.fn();
+      const nodeRef = {
+        getBoundingClientRect: () => ({
+          top: -50, right: 100, bottom: 50, left: 0, width: 100, height: 100
+        })
+      }
+      const wrapper = renderComponent(
+        <TrackVisibility partialVisibility nodeRef={nodeRef}>
+          {renderProp}
+        </TrackVisibility>
+      );
+
+      expect(renderProp).toHaveBeenLastCalledWith({ isVisible: true });
+    });
+
+    it("should render components partially visible at the bottom", () => {
+      const renderProp = jest.fn();
+      const nodeRef = {
+        getBoundingClientRect: () => ({
+          top: 758, right: 100, bottom: 858, left: 0, width: 100, height: 100
+        })
+      }
+      const wrapper = renderComponent(
+        <TrackVisibility partialVisibility nodeRef={nodeRef}>
+          {renderProp}
+        </TrackVisibility>
+      );
+
+      expect(renderProp).toHaveBeenLastCalledWith({ isVisible: true });
+    });
+  });
+
+  describe('When rendering the component', ()=> {
+    it('Can be rendered without children', () => {
+      const wrapper = renderComponent(<TrackVisibility />);
       expect(wrapper).toMatchSnapshot();
     });
 
