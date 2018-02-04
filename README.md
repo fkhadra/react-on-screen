@@ -138,6 +138,11 @@ Any contributions is welcome !
 
 ## Release Notes
 
+### v2.0.2
+
+- Add check for component bottom up to stop whole page being visible
+- Push componentDidMount `isComponentVisible` call into next tick
+
 ### v2.0.1
 
 - Fix issue #9. The component was not updated on prop changes
