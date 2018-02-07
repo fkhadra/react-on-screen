@@ -33,4 +33,4 @@ interface TrackVisibilityProps {
   partialVisibility?: boolean;
 }
 
-export class TrackVisibility extends React.Component<TrackVisibilityProps> {}
+export default class TrackVisibility extends React.Component<TrackVisibilityProps> {}
