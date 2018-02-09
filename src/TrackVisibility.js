@@ -99,18 +99,14 @@ export default class TrackVisibility extends Component {
    */
   shouldComponentUpdate(nextProps, nextState) {
     return !shallowequal(this.state, nextState)
-      || !this.arePropsEqual(this.getOwnProps(), this.props, nextProps);
+      || !shallowequal(this.getOwnProps(this.props), this.getOwnProps(nextProps));
   }
   
-  arePropsEqual(props, currentProps, nextProps) {
-    const propComparison = Object.keys(props)
-      .map(prop => currentProps[prop] === nextProps[prop])
-  
-    return propComparison.indexOf(false) === -1;
-  }
-  
+  /**
+   * Trigger visibility calculation only when non-own props change
+   */
   componentWillReceiveProps(nextProps) {
-    if (!this.arePropsEqual(this.getChildProps(), this.props, nextProps)) {
+    if (!shallowequal(this.getChildProps(this.props), this.getChildProps(nextProps))) {
       setTimeout(this.isComponentVisible, 0)
     }
   }
@@ -125,18 +121,22 @@ export default class TrackVisibility extends Component {
     window.removeEventListener("resize", this.throttleCb);
   }
 
-  getOwnProps() {
-    return TrackVisibility.defaultProps;
+  getOwnProps(props = this.props) {
+    const ownProps = {};
+    Object.keys(TrackVisibility.defaultProps).forEach(key => {
+      ownProps[key] = props[key];
+    });
+    return ownProps;
   }
 
-  getChildProps() {
-    const props = {};
-    Object.keys(this.props).forEach(key => {
+  getChildProps(props = this.props) {
+    const childProps = {};
+    Object.keys(props).forEach(key => {
       if (!{}.hasOwnProperty.call(TrackVisibility.defaultProps, key)) {
-        props[key] = this.props[key];
+        childProps[key] = props[key];
       }
     });
-    return props;
+    return childProps;
   }
 
   isVisible = ({ top, left, bottom, right, width, height }, windowWidth, windowHeight) => {
