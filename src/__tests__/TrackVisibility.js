@@ -27,11 +27,11 @@ describe('<TrackVisibility />', () => {
           {renderProp}
         </TrackVisibility>
       );
-      // Called twice, on initial render then mounting which triggers setState
-      expect(renderProp).toHaveBeenCalledTimes(2)
+      // Called one, on initial render then second call prevented by shouldComponentUpdate
+      expect(renderProp).toHaveBeenCalledTimes(1)
       // first call sets isVisible to false as this is the default state
       // Second render yields isVisible false as top, right, bottom, left are all 0
-      expect(renderProp).toHaveBeenLastCalledWith({ isVisible: false })
+      expect(renderProp).toHaveBeenCalledWith({ isVisible: false })
     });
   });
 
@@ -321,6 +321,243 @@ describe('<TrackVisibility />', () => {
       expect(hasProp(props, 'style')).toBe(false);
       expect(hasProp(props, 'once')).toBe(false);
       expect(hasProp(props, 'throttleInterval')).toBe(false);
+    });
+  });
+
+  describe("when re-rendering a visible component", () => {
+    beforeEach(() => {
+      window.innerHeight = 768;
+      window.innerWidth = 1024;
+    });
+
+    const nodeRef = {
+      getBoundingClientRect: () => ({
+        top: 80, right: 100, bottom: 180, left: 0, width: 100, height: 100
+      })
+    }
+
+    const reRenderWrapper = (wrapper, { props = null, state = null }) => {
+      props && wrapper.setProps(props);
+      state && wrapper.setState(state);
+
+      // Need to run through the next tick timers
+      jest.runAllTimers();
+
+      return wrapper;
+    }
+
+    describe("with the same component props", () => {
+      const props = {
+        once: true,
+        throttleInterval: 150,
+        style: { height: "50px" },
+        className: "a_classname",
+        offset: 100,
+        partialVisibility: true,
+        children: jest.fn(),
+        nodeRef
+      };
+      const wrapper = renderComponent(
+        <TrackVisibility {...props} />
+      );
+
+      it("shouldn't call the render prop", () => {
+        // Reset mock as it'll have been called a number of times at mount
+        props.children.mockClear();
+
+        expect(props.children).not.toHaveBeenCalled();
+        reRenderWrapper(wrapper, { props });
+        expect(props.children).not.toHaveBeenCalled();
+      });
+    });
+
+    describe("with the same component & non-component props", () => {
+      const props = {
+        once: true,
+        throttleInterval: 150,
+        style: { height: "50px" },
+        className: "a_classname",
+        offset: 100,
+        partialVisibility: true,
+        nodeRef,
+        children: jest.fn(),
+        notAComponentProp: 12
+      };
+      const wrapper = renderComponent(
+        <TrackVisibility {...props} />
+      );
+
+      it("shouldn't call the render prop", () => {
+        // Reset mock as it'll have been called a number of times at mount
+        props.children.mockClear();
+
+        expect(props.children).not.toHaveBeenCalled();
+        reRenderWrapper(wrapper, { props });
+        expect(props.children).not.toHaveBeenCalled();
+      });
+    });
+
+    describe("with the same state", () => {
+      const props = {
+        once: true,
+        throttleInterval: 150,
+        style: { height: "50px" },
+        className: "a_classname",
+        offset: 100,
+        partialVisibility: true,
+        children: jest.fn(),
+        nodeRef
+      };
+      const wrapper = renderComponent(
+        <TrackVisibility {...props} />
+      );
+
+      it("shouldn't call the render prop", () => {
+        // Reset mock as it'll have been called a number of times at mount
+        props.children.mockClear();
+
+        expect(props.children).not.toHaveBeenCalled();
+        reRenderWrapper(wrapper, { state: { isVisible: true } });
+        expect(props.children).not.toHaveBeenCalled();
+      });
+    });
+
+    describe("with different state", () => {
+      const props = {
+        once: true,
+        throttleInterval: 150,
+        style: { height: "50px" },
+        className: "a_classname",
+        offset: 100,
+        partialVisibility: true,
+        children: jest.fn(),
+        nodeRef
+      };
+      const wrapper = renderComponent(
+        <TrackVisibility {...props} />
+      );
+
+      it("should call the render prop", () => {
+        // Reset mock as it'll have been called a number of times at mount
+        props.children.mockClear();
+
+        expect(props.children).not.toHaveBeenCalled();
+        reRenderWrapper(wrapper, { state: { isVisible: false } });
+        expect(props.children).toHaveBeenCalledTimes(1);
+      });
+    });
+
+    describe("when the nodeRef is put offscreen", () => {
+      const props = {
+        once: true,
+        throttleInterval: 150,
+        style: { height: "50px" },
+        className: "a_classname",
+        offset: 100,
+        partialVisibility: true,
+        children: jest.fn(),
+        nodeRef
+      };
+      const wrapper = renderComponent(
+        <TrackVisibility {...props} />
+      );
+
+      it("shouldn't call the render prop", () => {
+        // Reset mock as it'll have been called a number of times at mount
+        props.children.mockClear();
+
+        // We need to mutate the original object
+        nodeRef.getBoundingClientRect = () => ({
+          top: 2080, right: 100, bottom: 2180, left: 0, width: 100, height: 100
+        });
+
+        expect(props.children).not.toHaveBeenCalled();
+        reRenderWrapper(wrapper, { props });
+        expect(props.children).not.toHaveBeenCalled();
+      });
+    });
+
+    describe("when the nodeRef is put offscreen and a non-component prop is changed", () => {
+      const props = {
+        once: false,
+        throttleInterval: 150,
+        style: { height: "50px" },
+        className: "a_classname",
+        offset: 100,
+        partialVisibility: true,
+        nodeRef,
+        children: jest.fn(),
+        notAComponentProp: 21
+      };
+      const wrapper = renderComponent(
+        <TrackVisibility {...props} />
+      );
+
+      it("should call the render prop", () => {
+        // Reset mock as it'll have been called a number of times at mount
+        props.children.mockClear();
+
+        // We need to mutate the original object
+        nodeRef.getBoundingClientRect = () => ({
+          top: 2080, right: 100, bottom: 2180, left: 0, width: 100, height: 100
+        });
+
+        expect(props.children).not.toHaveBeenCalled();
+        reRenderWrapper(wrapper, { props: { ...props, notAComponentProp: 2 } });
+        expect(props.children).toHaveBeenCalledTimes(1);
+        expect(props.children).toHaveBeenLastCalledWith({ isVisible: false, notAComponentProp: 2 });
+      });
+    });
+
+    describe("with different component props", () => {
+      const props = {
+        once: true,
+        throttleInterval: 150,
+        style: { height: "50px" },
+        className: "a_classname",
+        offset: 100,
+        partialVisibility: true,
+        nodeRef,
+        children: jest.fn()
+      };
+      const wrapper = renderComponent(
+        <TrackVisibility {...props} />
+      );
+
+      it("should call the render prop", () => {
+        // Reset mock as it'll have been called a number of times at mount
+        props.children.mockClear();
+
+        expect(props.children).not.toHaveBeenCalled();
+        reRenderWrapper(wrapper, { props: { ...props, once: false } });
+        expect(props.children).toHaveBeenCalledTimes(1);
+      });
+    });
+
+    describe("with different non-component props", () => {
+      const props = {
+        once: true,
+        throttleInterval: 150,
+        style: { height: "50px" },
+        className: "a_classname",
+        offset: 100,
+        partialVisibility: true,
+        nodeRef,
+        children: jest.fn(),
+        notAComponentProp: 21
+      };
+      const wrapper = renderComponent(
+        <TrackVisibility {...props} />
+      );
+
+      it("shouldn't call the render prop", () => {
+        // Reset mock as it'll have been called a number of times at mount
+        props.children.mockClear();
+
+        expect(props.children).not.toHaveBeenCalled();
+        reRenderWrapper(wrapper, { props });
+        expect(props.children).not.toHaveBeenCalled();
+      });
     });
   });
 });

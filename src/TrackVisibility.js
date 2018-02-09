@@ -2,6 +2,7 @@
 import React, { Component } from "react";
 import PropTypes from "prop-types";
 import throttle from "lodash.throttle";
+import shallowequal from "shallowequal";
 
 export default class TrackVisibility extends Component {
   static propTypes = {
@@ -61,10 +62,10 @@ export default class TrackVisibility extends Component {
   static defaultProps = {
     once: false,
     throttleInterval: 150,
+    children: null,
     style: null,
     className: null,
     offset: 0,
-    children: null,
     partialVisibility: false,
     nodeRef: null
   };
@@ -84,11 +85,34 @@ export default class TrackVisibility extends Component {
 
   componentDidMount() {
     this.attachListener();
-    setTimeout(() => this.isComponentVisible(), 0);
+    setTimeout(this.isComponentVisible, 0);
   }
 
   componentWillUnmount() {
     this.removeListener();
+  }
+
+  /**
+   * Only update (call render) if the state has changed or one of the components configured props
+   * (something in defaultProps) has been changed. This allows recalculation of visibility on prop
+   * change (using componentWillReceiveProps) without vDOM diff'ing by React.
+   */
+  shouldComponentUpdate(nextProps, nextState) {
+    return !shallowequal(this.state, nextState)
+      || !this.arePropsEqual(this.getOwnProps(), this.props, nextProps);
+  }
+  
+  arePropsEqual(props, currentProps, nextProps) {
+    const propComparison = Object.keys(props)
+      .map(prop => currentProps[prop] === nextProps[prop])
+  
+    return propComparison.indexOf(false) === -1;
+  }
+  
+  componentWillReceiveProps(nextProps) {
+    if (!this.arePropsEqual(this.getChildProps(), this.props, nextProps)) {
+      setTimeout(this.isComponentVisible, 0)
+    }
   }
 
   attachListener() {
@@ -99,6 +123,10 @@ export default class TrackVisibility extends Component {
   removeListener() {
     window.removeEventListener("scroll", this.throttleCb);
     window.removeEventListener("resize", this.throttleCb);
+  }
+
+  getOwnProps() {
+    return TrackVisibility.defaultProps;
   }
 
   getChildProps() {
