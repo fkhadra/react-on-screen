@@ -138,6 +138,10 @@ Any contributions is welcome !
 
 ## Release Notes
 
+### v2.0.4
+
+- Recalculate on props change. 
+
 ### v2.0.2
 
 - Add check for component bottom up to stop whole page being visible
