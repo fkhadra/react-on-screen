@@ -2,6 +2,7 @@
 import React, { Component } from "react";
 import PropTypes from "prop-types";
 import throttle from "lodash.throttle";
+import shallowequal from "shallowequal";
 
 export default class TrackVisibility extends Component {
   static propTypes = {
@@ -61,10 +62,10 @@ export default class TrackVisibility extends Component {
   static defaultProps = {
     once: false,
     throttleInterval: 150,
+    children: null,
     style: null,
     className: null,
     offset: 0,
-    children: null,
     partialVisibility: false,
     nodeRef: null
   };
@@ -84,11 +85,30 @@ export default class TrackVisibility extends Component {
 
   componentDidMount() {
     this.attachListener();
-    setTimeout(() => this.isComponentVisible(), 0);
+    setTimeout(this.isComponentVisible, 0);
   }
 
   componentWillUnmount() {
     this.removeListener();
+  }
+
+  /**
+   * Only update (call render) if the state has changed or one of the components configured props
+   * (something in defaultProps) has been changed. This allows recalculation of visibility on prop
+   * change (using componentWillReceiveProps) without vDOM diff'ing by React.
+   */
+  shouldComponentUpdate(nextProps, nextState) {
+    return !shallowequal(this.state, nextState)
+      || !shallowequal(this.getOwnProps(this.props), this.getOwnProps(nextProps));
+  }
+  
+  /**
+   * Trigger visibility calculation only when non-own props change
+   */
+  componentWillReceiveProps(nextProps) {
+    if (!shallowequal(this.getChildProps(this.props), this.getChildProps(nextProps))) {
+      setTimeout(this.isComponentVisible, 0)
+    }
   }
 
   attachListener() {
@@ -101,14 +121,22 @@ export default class TrackVisibility extends Component {
     window.removeEventListener("resize", this.throttleCb);
   }
 
-  getChildProps() {
-    const props = {};
-    Object.keys(this.props).forEach(key => {
+  getOwnProps(props = this.props) {
+    const ownProps = {};
+    Object.keys(TrackVisibility.defaultProps).forEach(key => {
+      ownProps[key] = props[key];
+    });
+    return ownProps;
+  }
+
+  getChildProps(props = this.props) {
+    const childProps = {};
+    Object.keys(props).forEach(key => {
       if (!{}.hasOwnProperty.call(TrackVisibility.defaultProps, key)) {
-        props[key] = this.props[key];
+        childProps[key] = props[key];
       }
     });
-    return props;
+    return childProps;
   }
 
   isVisible = ({ top, left, bottom, right, width, height }, windowWidth, windowHeight) => {
