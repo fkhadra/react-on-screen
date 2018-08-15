@@ -122,7 +122,7 @@ const YourApp = () => {
 |----------------|----------------|-------|-----------|
 |once            |bool            |false|If set to true track the visibility only once and remove the event listeners|
 |throttleInterval|int             |150|Tweak the event listeners. See [David Corbacho's article](https://css-tricks.com/debouncing-throttling-explained-examples/)|
-|children        |React Components|  -  |Can be on or many react components|
+|children        |React Components|  -  |Can be one or many react components|
 |style           |object          |  -  |Style attributes|
 |className       |string          |  -  |Css classes|
 |offset          |number          |  0  |Allows you to specify how far left or above of the viewport you want to set isVisible to `true`|
