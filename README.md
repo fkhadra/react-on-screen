@@ -127,6 +127,7 @@ const YourApp = () => {
 |className       |string          |  -  |Css classes|
 |offset          |number          |  0  |Allows you to specify how far left or above of the viewport you want to set isVisible to `true`|
 |partialVisibility|bool           |false|Set isVisible to true on element as soon as any part is in the viewport|
+|tag             |React Components|div  |Allows specifying custom wrapper|
 
 ## Contributions
 
