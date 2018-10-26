@@ -8,6 +8,7 @@ exports[`<TrackVisibility /> When rendering the component Can be rendered withou
   once={false}
   partialVisibility={false}
   style={null}
+  tag="div"
   throttleInterval={150}
 >
   <div />
@@ -22,6 +23,7 @@ exports[`<TrackVisibility /> When rendering the component Should be able to use 
   once={false}
   partialVisibility={false}
   style={null}
+  tag="div"
   throttleInterval={150}
 >
   <div>
@@ -42,6 +44,7 @@ exports[`<TrackVisibility /> When rendering the component Should fallback client
   once={false}
   partialVisibility={false}
   style={null}
+  tag="div"
   throttleInterval={150}
 >
   <div />
@@ -56,6 +59,7 @@ exports[`<TrackVisibility /> when partially visible Can check partial visibilty 
   once={false}
   partialVisibility={true}
   style={null}
+  tag="div"
   throttleInterval={150}
 >
   <div />

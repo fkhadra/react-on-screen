@@ -56,7 +56,11 @@ export default class TrackVisibility extends Component {
      * Exposed for testing but allows node other than internal wrapping <div /> to be tracked
      * for visibility
      */
-    nodeRef: PropTypes.object
+    nodeRef: PropTypes.object,
+    /**
+     * Define a custom tag
+     */
+    tag: PropTypes.oneOfType([PropTypes.func, PropTypes.string])
   };
 
   static defaultProps = {
@@ -67,13 +71,14 @@ export default class TrackVisibility extends Component {
     className: null,
     offset: 0,
     partialVisibility: false,
-    nodeRef: null
+    nodeRef: null,
+    tag: "div"
   };
-  
+
   constructor(props) {
     super(props);
     this.state = {
-        isVisible: false
+      isVisible: false
     };
     this.throttleCb = throttle(
       this.isComponentVisible,
@@ -98,16 +103,23 @@ export default class TrackVisibility extends Component {
    * change (using componentWillReceiveProps) without vDOM diff'ing by React.
    */
   shouldComponentUpdate(nextProps, nextState) {
-    return !shallowequal(this.state, nextState)
-      || !shallowequal(this.getOwnProps(this.props), this.getOwnProps(nextProps));
+    return (
+      !shallowequal(this.state, nextState) ||
+      !shallowequal(this.getOwnProps(this.props), this.getOwnProps(nextProps))
+    );
   }
-  
+
   /**
    * Trigger visibility calculation only when non-own props change
    */
   componentWillReceiveProps(nextProps) {
-    if (!shallowequal(this.getChildProps(this.props), this.getChildProps(nextProps))) {
-      setTimeout(this.isComponentVisible, 0)
+    if (
+      !shallowequal(
+        this.getChildProps(this.props),
+        this.getChildProps(nextProps)
+      )
+    ) {
+      setTimeout(this.isComponentVisible, 0);
     }
   }
 
@@ -139,7 +151,11 @@ export default class TrackVisibility extends Component {
     return childProps;
   }
 
-  isVisible = ({ top, left, bottom, right, width, height }, windowWidth, windowHeight) => {
+  isVisible = (
+    { top, left, bottom, right, width, height },
+    windowWidth,
+    windowHeight
+  ) => {
     const { offset, partialVisibility } = this.props;
 
     if (top + right + bottom + left === 0) {
@@ -152,16 +168,16 @@ export default class TrackVisibility extends Component {
     const heightCheck = windowHeight + offset;
 
     return partialVisibility
-      ? top + height >= topThreshold
-        && left + width >= leftThreshold
-        && bottom - height <= heightCheck
-        && right - width <= widthCheck
-      : top >= topThreshold
-        && left >= leftThreshold
-        && bottom <= heightCheck
-        && right <= widthCheck;
-  }
-  
+      ? top + height >= topThreshold &&
+          left + width >= leftThreshold &&
+          bottom - height <= heightCheck &&
+          right - width <= widthCheck
+      : top >= topThreshold &&
+          left >= leftThreshold &&
+          bottom <= heightCheck &&
+          right <= widthCheck;
+  };
+
   isComponentVisible = () => {
     // isComponentVisible might be called from componentDidMount, before component ref is assigned
     if (!this.nodeRef || !this.nodeRef.getBoundingClientRect) return;
@@ -171,24 +187,28 @@ export default class TrackVisibility extends Component {
     const boundingClientRect = this.nodeRef.getBoundingClientRect();
     const windowWidth = window.innerWidth || html.clientWidth;
     const windowHeight = window.innerHeight || html.clientHeight;
-    
-    const isVisible = this.isVisible(boundingClientRect, windowWidth, windowHeight);
-    
+
+    const isVisible = this.isVisible(
+      boundingClientRect,
+      windowWidth,
+      windowHeight
+    );
+
     if (isVisible && once) {
       this.removeListener();
     }
-    
+
     this.setState({ isVisible });
-  }
-  
-  setNodeRef = ref => this.nodeRef = ref;
-  
+  };
+
+  setNodeRef = ref => (this.nodeRef = ref);
+
   getChildren() {
-    if(typeof this.props.children === "function") {
+    if (typeof this.props.children === "function") {
       return this.props.children({
         ...this.getChildProps(),
         isVisible: this.state.isVisible
-      })
+      });
     }
 
     return React.Children.map(this.props.children, child =>
@@ -200,16 +220,16 @@ export default class TrackVisibility extends Component {
   }
 
   render() {
-    const { className, style, nodeRef } = this.props;
+    const { className, style, nodeRef, tag: Tag } = this.props;
     const props = {
       ...(className !== null && { className }),
-      ...(style !== null && { style }),
+      ...(style !== null && { style })
     };
 
     return (
-      <div ref={!nodeRef && this.setNodeRef} {...props}>
+      <Tag ref={!nodeRef && this.setNodeRef} {...props}>
         {this.getChildren()}
-      </div>
+      </Tag>
     );
   }
 }
