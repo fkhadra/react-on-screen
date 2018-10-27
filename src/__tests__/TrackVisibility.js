@@ -31,7 +31,7 @@ describe('<TrackVisibility />', () => {
       expect(renderProp).toHaveBeenCalledTimes(1)
       // first call sets isVisible to false as this is the default state
       // Second render yields isVisible false as top, right, bottom, left are all 0
-      expect(renderProp).toHaveBeenCalledWith({ isVisible: false })
+      expect(renderProp).toHaveBeenLastCalledWith({ isVisible: false })
     });
   });
 
@@ -57,13 +57,13 @@ describe('<TrackVisibility />', () => {
           top: -2000, right: 100, bottom: -1900, left: 0, width: 100, height: 100
         })
       }
-      const wrapper = renderComponent(
+      const component = renderComponent(
         <TrackVisibility partialVisibility nodeRef={nodeRef}>
           {renderProp}
         </TrackVisibility>
       );
 
-      expect(renderProp).toHaveBeenLastCalledWith({ isVisible: false });
+      expect(component.state().isVisible).toBe(false);
     });
 
     it("shouldn't render components off the bottom", () => {
@@ -73,13 +73,13 @@ describe('<TrackVisibility />', () => {
           top: 1900, right: 100, bottom: 2000, left: 0, width: 100, height: 100
         })
       }
-      const wrapper = renderComponent(
+      const component = renderComponent(
         <TrackVisibility partialVisibility nodeRef={nodeRef}>
           {renderProp}
         </TrackVisibility>
       );
 
-      expect(renderProp).toHaveBeenLastCalledWith({ isVisible: false });
+      expect(component.state().isVisible).toBe(false);
     });
 
     it("should render components partially visible at the top", () => {
@@ -89,13 +89,13 @@ describe('<TrackVisibility />', () => {
           top: -50, right: 100, bottom: 50, left: 0, width: 100, height: 100
         })
       }
-      const wrapper = renderComponent(
+      const component = renderComponent(
         <TrackVisibility partialVisibility nodeRef={nodeRef}>
           {renderProp}
         </TrackVisibility>
       );
 
-      expect(renderProp).toHaveBeenLastCalledWith({ isVisible: true });
+      expect(component.state().isVisible).toBe(true);
     });
 
     it("should render components partially visible at the bottom", () => {
@@ -105,13 +105,13 @@ describe('<TrackVisibility />', () => {
           top: 758, right: 100, bottom: 858, left: 0, width: 100, height: 100
         })
       }
-      const wrapper = renderComponent(
+      const component = renderComponent(
         <TrackVisibility partialVisibility nodeRef={nodeRef}>
           {renderProp}
         </TrackVisibility>
       );
 
-      expect(renderProp).toHaveBeenLastCalledWith({ isVisible: true });
+      expect(component.state().isVisible).toBe(true);
     });
 
     it('Should remove event from window when visibility is tracked once', () => {
@@ -136,13 +136,13 @@ describe('<TrackVisibility />', () => {
             top: -300, right: 100, bottom: -200, left: 0, width: 100, height: 100
           })
         }
-        const wrapper = renderComponent(
+        const component = renderComponent(
           <TrackVisibility partialVisibility nodeRef={nodeRef} offset={offset}>
             {renderProp}
           </TrackVisibility>
         );
 
-        expect(renderProp).toHaveBeenLastCalledWith({ isVisible: false });
+        expect(component.state().isVisible).toBe(false);
       });
 
       it("shouldn't render components off the bottom by more than the offset", () => {
@@ -152,13 +152,13 @@ describe('<TrackVisibility />', () => {
             top: 968, right: 100, bottom: 1068, left: 0, width: 100, height: 100
           })
         }
-        const wrapper = renderComponent(
+        const component = renderComponent(
           <TrackVisibility partialVisibility nodeRef={nodeRef} offset={offset}>
             {renderProp}
           </TrackVisibility>
         );
 
-        expect(renderProp).toHaveBeenLastCalledWith({ isVisible: false });
+        expect(component.state().isVisible).toBe(false);
       });
 
       it("should render components partially visible at the top when within offset", () => {
@@ -168,13 +168,13 @@ describe('<TrackVisibility />', () => {
             top: -150, right: 100, bottom: -50, left: 0, width: 100, height: 100
           })
         }
-        const wrapper = renderComponent(
+        const component = renderComponent(
           <TrackVisibility partialVisibility nodeRef={nodeRef} offset={offset}>
             {renderProp}
           </TrackVisibility>
         );
 
-        expect(renderProp).toHaveBeenLastCalledWith({ isVisible: true });
+        expect(component.state().isVisible).toBe(true);
       });
 
       it("should render components partially visible at the bottom when within offset", () => {
@@ -184,13 +184,13 @@ describe('<TrackVisibility />', () => {
             top: 818, right: 100, bottom: 918, left: 0, width: 100, height: 100
           })
         }
-        const wrapper = renderComponent(
+        const component = renderComponent(
           <TrackVisibility partialVisibility nodeRef={nodeRef} offset={offset}>
             {renderProp}
           </TrackVisibility>
         );
 
-        expect(renderProp).toHaveBeenLastCalledWith({ isVisible: true });
+        expect(component.state().isVisible).toBe(true);
       });
     });
   });
@@ -203,13 +203,13 @@ describe('<TrackVisibility />', () => {
           top: 0, right: 0, bottom: 0, left: 0, width: 0, height: 0
         })
       }
-      const wrapper = mount(
+      const component = mount(
         <TrackVisibility nodeRef={nodeRef}>
           {renderProp}
         </TrackVisibility>
       );
 
-      expect(renderProp).toHaveBeenLastCalledWith({ isVisible: false });
+      expect(component.state().isVisible).toBe(false);
     });
   });
 

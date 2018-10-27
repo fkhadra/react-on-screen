@@ -2,12 +2,9 @@
 
 exports[`<TrackVisibility /> When rendering the component Can be rendered without children 1`] = `
 <TrackVisibility
-  className={null}
-  nodeRef={null}
   offset={0}
   once={false}
   partialVisibility={false}
-  style={null}
   tag="div"
   throttleInterval={150}
 >
@@ -17,12 +14,9 @@ exports[`<TrackVisibility /> When rendering the component Can be rendered withou
 
 exports[`<TrackVisibility /> When rendering the component Should be able to use a render props 1`] = `
 <TrackVisibility
-  className={null}
-  nodeRef={null}
   offset={0}
   once={false}
   partialVisibility={false}
-  style={null}
   tag="div"
   throttleInterval={150}
 >
@@ -38,12 +32,9 @@ exports[`<TrackVisibility /> When rendering the component Should be able to use 
 
 exports[`<TrackVisibility /> When rendering the component Should fallback clientHeight when window propeties are not defined 1`] = `
 <TrackVisibility
-  className={null}
-  nodeRef={null}
   offset={0}
   once={false}
   partialVisibility={false}
-  style={null}
   tag="div"
   throttleInterval={150}
 >
@@ -53,12 +44,9 @@ exports[`<TrackVisibility /> When rendering the component Should fallback client
 
 exports[`<TrackVisibility /> when partially visible Can check partial visibilty 1`] = `
 <TrackVisibility
-  className={null}
-  nodeRef={null}
   offset={0}
   once={false}
   partialVisibility={true}
-  style={null}
   tag="div"
   throttleInterval={150}
 >

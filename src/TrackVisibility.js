@@ -66,12 +66,8 @@ export default class TrackVisibility extends Component {
   static defaultProps = {
     once: false,
     throttleInterval: 150,
-    children: null,
-    style: null,
-    className: null,
     offset: 0,
     partialVisibility: false,
-    nodeRef: null,
     tag: "div"
   };
 
@@ -222,8 +218,8 @@ export default class TrackVisibility extends Component {
   render() {
     const { className, style, nodeRef, tag: Tag } = this.props;
     const props = {
-      ...(className !== null && { className }),
-      ...(style !== null && { style })
+      ...(className && { className }),
+      ...(style && { style })
     };
 
     return (
