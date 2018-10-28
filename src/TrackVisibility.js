@@ -73,6 +73,7 @@ export default class TrackVisibility extends Component {
 
   constructor(props) {
     super(props);
+    this.ownProps = Object.keys(TrackVisibility.propTypes);
     this.state = {
       isVisible: false
     };
@@ -140,7 +141,7 @@ export default class TrackVisibility extends Component {
   getChildProps(props = this.props) {
     const childProps = {};
     Object.keys(props).forEach(key => {
-      if (!{}.hasOwnProperty.call(TrackVisibility.defaultProps, key)) {
+      if (this.ownProps.indexOf(key) === -1) {
         childProps[key] = props[key];
       }
     });
