@@ -4,8 +4,14 @@ import { render } from 'react-dom';
 import TrackVisibility from '../index';
 import './index.css';
 
-
-const Settings = ({ once, partialVisibility, offset, throttleInterval, handleCheckbox, handleInput }) => (
+const Settings = ({
+  once,
+  partialVisibility,
+  offset,
+  throttleInterval,
+  handleCheckbox,
+  handleInput
+}) => (
   <ul className="settings">
     <li>
       <label htmlFor="once">Once</label>

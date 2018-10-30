@@ -24,6 +24,7 @@ export default class TrackVisibility extends PureComponent {
       }
       return null;
     },
+
     /**
      * Pass one or more children to track
      */
@@ -32,6 +33,7 @@ export default class TrackVisibility extends PureComponent {
       PropTypes.element,
       PropTypes.arrayOf(PropTypes.element)
     ]),
+
     /**
      * Additional style to apply
      */
@@ -57,10 +59,11 @@ export default class TrackVisibility extends PureComponent {
      * for visibility
      */
     nodeRef: PropTypes.object,
+
     /**
      * Define a custom tag
      */
-    tag: PropTypes.oneOfType([PropTypes.func, PropTypes.string])
+    tag: PropTypes.string
   };
 
   static defaultProps = {
@@ -143,13 +146,13 @@ export default class TrackVisibility extends PureComponent {
 
     return partialVisibility
       ? top + height >= topThreshold &&
-      left + width >= leftThreshold &&
-      bottom - height <= heightCheck &&
-      right - width <= widthCheck
+          left + width >= leftThreshold &&
+          bottom - height <= heightCheck &&
+          right - width <= widthCheck
       : top >= topThreshold &&
-      left >= leftThreshold &&
-      bottom <= heightCheck &&
-      right <= widthCheck;
+          left >= leftThreshold &&
+          bottom <= heightCheck &&
+          right <= widthCheck;
   };
 
   isComponentVisible = () => {
@@ -174,7 +177,7 @@ export default class TrackVisibility extends PureComponent {
       }
 
       this.setState({ isVisible });
-    }, 0)
+    }, 0);
   };
 
   setNodeRef = ref => (this.nodeRef = ref);

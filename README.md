@@ -4,18 +4,19 @@
 
 ![react-on-screen-demo](https://user-images.githubusercontent.com/5574267/32147681-74918d80-bceb-11e7-98d4-1cbc04b29eb4.gif)
 
-* [Demo](#demo)
-* [Installation](#installation)
-* [Usage](#usage)
-  + [Simple](#simple)
-  + [Using a render props](#using-a-render-props)
-  + [Track the visibility only once](#track-the-visibility-only-once)
-  + [Defining offset](#defining-offset)
-  + [Partial visibility](#partial-visibility)
-* [Api](#api)
-* [Contributions](#contributions)
-* [Release Notes](#release-notes)
-* [License](#license)
+- [React on screen ![npm]() ![npm]() ![license]() ![Coverage Status](https://coveralls.io/github/fkhadra/react-on-screen?branch=master)](#react-on-screen-npm-npm-license-coverage-statushttpscoverallsiogithubfkhadrareact-on-screenbranchmaster)
+    - [Demo](#demo)
+    - [Installation](#installation)
+    - [Usage](#usage)
+        - [Simple](#simple)
+        - [Using a render props](#using-a-render-props)
+        - [Track the visibility only once](#track-the-visibility-only-once)
+        - [Defining offset](#defining-offset)
+        - [Partial visibility](#partial-visibility)
+        - [Use the html tag of your choice](#use-the-html-tag-of-your-choice)
+    - [Api](#api)
+    - [Contributions](#contributions)
+    - [License](#license)
 
 ## Demo
 
@@ -116,6 +117,18 @@ const YourApp = () => {
 }
 ```
 
+### Use the html tag of your choice
+
+```js
+const YourApp = () => {
+    return (
+        <TrackVisibility partialVisibility tag="h1">
+            {({ isVisible }) => <ComponentToTrack />}
+        </TrackVisibility>
+    );
+}
+```
+
 ## Api
 
 |props           |type            |default|description|
@@ -127,48 +140,16 @@ const YourApp = () => {
 |className       |string          |  -  |Css classes|
 |offset          |number          |  0  |Allows you to specify how far left or above of the viewport you want to set isVisible to `true`|
 |partialVisibility|bool           |false|Set isVisible to true on element as soon as any part is in the viewport|
-|tag             |React Components|div  |Allows specifying custom wrapper|
+|tag             |string|div  |Allows specifying html tag of your choice|
 
 ## Contributions
 
 Any contributions is welcome !
 
-- Lint : ``` $ npm run lint ```
-- Test : ``` $ npm run test ```
-- Build : ``` $ npm run build // will lint and run test before ```
-
-## Release Notes
-
-### v2.0.4
-
-- Recalculate on props change. 
-
-### v2.0.2
-
-- Add check for component bottom up to stop whole page being visible
-- Push componentDidMount `isComponentVisible` call into next tick
-
-### v2.0.1
-
-- Fix issue #9. The component was not updated on prop changes
-
-### v2.0.0
-
-- Added support for partial visibility. Thanks to [audiolion](https://github.com/audiolion)
-- Internal rewrite
-- CI intregration
-- Better Test suite
-- Typescript definition !
-
-### v1.1.4
-
-- React and react-dom are now peer dependencies
-
-### v1.1.1
-
-- switched to webpack2
-- Upgraded to stand alone prop-types
-
+- Develop: ``` $ yarn start ```
+- Lint : ``` $ yarn lint ```
+- Test : ``` $ yarn test ```
+- Build : ``` $ yarn build // will lint and run test before ```
 
 ## License
 
