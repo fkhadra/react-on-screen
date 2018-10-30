@@ -1,0 +1,21 @@
+.square {
+  width: 200px;
+  height: 200px;
+  background: red;
+  margin: auto;
+  transform: translateX(-500%);
+  transition: transform cubic-bezier(0.165, 0.84, 0.44, 1) 0.4s;
+}
+
+.is-visible {
+  transform: translateX(0);
+}
+
+.settings{
+  position: fixed;
+  z-index: 2;
+}
+
+.settings input[type="number"]{
+  width: 50px;
+}
