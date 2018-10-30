@@ -504,7 +504,7 @@ describe('<TrackVisibility />', () => {
 
         expect(props.children).not.toHaveBeenCalled();
         reRenderWrapper(wrapper, { props: { ...props, notAComponentProp: 2 } });
-        expect(props.children).toHaveBeenCalledTimes(1);
+        expect(props.children).toHaveBeenCalledTimes(2);
         expect(props.children).toHaveBeenLastCalledWith({ isVisible: false, notAComponentProp: 2 });
       });
     });

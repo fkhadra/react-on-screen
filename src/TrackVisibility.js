@@ -1,10 +1,10 @@
 /* global window, document */
-import React, { Component } from "react";
-import PropTypes from "prop-types";
-import throttle from "lodash.throttle";
-import shallowequal from "shallowequal";
+import React, { PureComponent } from 'react';
+import PropTypes from 'prop-types';
+import throttle from 'lodash.throttle';
+import shallowequal from 'shallowequal';
 
-export default class TrackVisibility extends Component {
+export default class TrackVisibility extends PureComponent {
   static propTypes = {
     /**
      * Define if the visibility need to be tracked once
@@ -68,7 +68,7 @@ export default class TrackVisibility extends Component {
     throttleInterval: 150,
     offset: 0,
     partialVisibility: false,
-    tag: "div"
+    tag: 'div'
   };
 
   constructor(props) {
@@ -87,55 +87,32 @@ export default class TrackVisibility extends Component {
 
   componentDidMount() {
     this.attachListener();
-    setTimeout(this.isComponentVisible, 0);
+    this.isComponentVisible();
+  }
+
+  componentDidUpdate(prevProps) {
+    if (
+      !shallowequal(
+        this.getChildProps(this.props),
+        this.getChildProps(prevProps)
+      )
+    ) {
+      this.isComponentVisible();
+    }
   }
 
   componentWillUnmount() {
     this.removeListener();
   }
 
-  /**
-   * Only update (call render) if the state has changed or one of the components configured props
-   * (something in defaultProps) has been changed. This allows recalculation of visibility on prop
-   * change (using componentWillReceiveProps) without vDOM diff'ing by React.
-   */
-  shouldComponentUpdate(nextProps, nextState) {
-    return (
-      !shallowequal(this.state, nextState) ||
-      !shallowequal(this.getOwnProps(this.props), this.getOwnProps(nextProps))
-    );
-  }
-
-  /**
-   * Trigger visibility calculation only when non-own props change
-   */
-  componentWillReceiveProps(nextProps) {
-    if (
-      !shallowequal(
-        this.getChildProps(this.props),
-        this.getChildProps(nextProps)
-      )
-    ) {
-      setTimeout(this.isComponentVisible, 0);
-    }
-  }
-
   attachListener() {
-    window.addEventListener("scroll", this.throttleCb);
-    window.addEventListener("resize", this.throttleCb);
+    window.addEventListener('scroll', this.throttleCb);
+    window.addEventListener('resize', this.throttleCb);
   }
 
   removeListener() {
-    window.removeEventListener("scroll", this.throttleCb);
-    window.removeEventListener("resize", this.throttleCb);
-  }
-
-  getOwnProps(props = this.props) {
-    const ownProps = {};
-    Object.keys(TrackVisibility.defaultProps).forEach(key => {
-      ownProps[key] = props[key];
-    });
-    return ownProps;
+    window.removeEventListener('scroll', this.throttleCb);
+    window.removeEventListener('resize', this.throttleCb);
   }
 
   getChildProps(props = this.props) {
@@ -166,42 +143,44 @@ export default class TrackVisibility extends Component {
 
     return partialVisibility
       ? top + height >= topThreshold &&
-          left + width >= leftThreshold &&
-          bottom - height <= heightCheck &&
-          right - width <= widthCheck
+      left + width >= leftThreshold &&
+      bottom - height <= heightCheck &&
+      right - width <= widthCheck
       : top >= topThreshold &&
-          left >= leftThreshold &&
-          bottom <= heightCheck &&
-          right <= widthCheck;
+      left >= leftThreshold &&
+      bottom <= heightCheck &&
+      right <= widthCheck;
   };
 
   isComponentVisible = () => {
-    // isComponentVisible might be called from componentDidMount, before component ref is assigned
-    if (!this.nodeRef || !this.nodeRef.getBoundingClientRect) return;
+    setTimeout(() => {
+      // isComponentVisible might be called from componentDidMount, before component ref is assigned
+      if (!this.nodeRef || !this.nodeRef.getBoundingClientRect) return;
 
-    const html = document.documentElement;
-    const { once } = this.props;
-    const boundingClientRect = this.nodeRef.getBoundingClientRect();
-    const windowWidth = window.innerWidth || html.clientWidth;
-    const windowHeight = window.innerHeight || html.clientHeight;
+      const html = document.documentElement;
+      const { once } = this.props;
+      const boundingClientRect = this.nodeRef.getBoundingClientRect();
+      const windowWidth = window.innerWidth || html.clientWidth;
+      const windowHeight = window.innerHeight || html.clientHeight;
 
-    const isVisible = this.isVisible(
-      boundingClientRect,
-      windowWidth,
-      windowHeight
-    );
+      const isVisible = this.isVisible(
+        boundingClientRect,
+        windowWidth,
+        windowHeight
+      );
 
-    if (isVisible && once) {
-      this.removeListener();
-    }
+      if (isVisible && once) {
+        this.removeListener();
+      }
 
-    this.setState({ isVisible });
+      this.setState({ isVisible });
+    }, 0)
   };
 
   setNodeRef = ref => (this.nodeRef = ref);
 
   getChildren() {
-    if (typeof this.props.children === "function") {
+    if (typeof this.props.children === 'function') {
       return this.props.children({
         ...this.getChildProps(),
         isVisible: this.state.isVisible

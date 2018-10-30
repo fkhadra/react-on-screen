@@ -4,6 +4,7 @@ import { render } from 'react-dom';
 import TrackVisibility from '../index';
 import './index.css';
 
+
 const Settings = ({ once, partialVisibility, offset, throttleInterval, handleCheckbox, handleInput }) => (
   <ul className="settings">
     <li>
@@ -75,7 +76,7 @@ class App extends React.Component {
 
   render() {
     const list = [];
-    for (let i = 0; i < 50; i++) {
+    for (let i = 0; i < 5; i++) {
       list.push(
         <React.Fragment key={i}>
           <TrackVisibility {...this.state}>
