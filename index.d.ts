@@ -36,6 +36,11 @@ interface TrackVisibilityProps {
    * Define a custom html tag
    */
   tag?: string;
+
+  /**
+   * Pass a render function or a ReactNode as child
+   */
+  children: React.ReactNode | ((value: { isVisible: boolean }) => React.ReactNode);
 }
 
 export default class TrackVisibility extends React.Component<TrackVisibilityProps> {}
