@@ -10,7 +10,9 @@ const Settings = ({
   offset,
   throttleInterval,
   handleCheckbox,
-  handleInput
+  handleInput,
+  handleCallbackChange,
+  callbackEnabled
 }) => (
   <ul className="settings">
     <li>
@@ -53,6 +55,16 @@ const Settings = ({
         value={throttleInterval}
       />
     </li>
+    <li>
+      <label htmlFor="callbackEnabled">Callback Function</label>
+      <input
+        id="callbackEnabled"
+        name="callbackEnabled"
+        type="checkbox"
+        onChange={handleCallbackChange}
+        value={callbackEnabled}
+      />
+    </li>    
   </ul>
 );
 
@@ -65,7 +77,9 @@ class App extends React.Component {
     once: false,
     throttleInterval: 150,
     offset: 0,
-    partialVisibility: false
+    partialVisibility: false,
+    callbackEnabled: false,
+    callback: undefined
   };
 
   handleCheckbox = e => {
@@ -74,11 +88,22 @@ class App extends React.Component {
     });
   };
 
+  handleCallbackChange = e => {
+    this.setState({
+      callbackEnabled: !this.state[e.target.name],
+      callback: !this.state[e.target.name] ? this.callbackFunction : undefined
+    })
+  }
+
   handleInput = e => {
     this.setState({
       [e.target.name]: Number(e.target.value)
     });
   };
+
+  callbackFunction = isVisible => {
+    console.log(`is visible ${isVisible}`)
+  }
 
   render() {
     const list = [];
@@ -98,6 +123,7 @@ class App extends React.Component {
           {...this.state}
           handleCheckbox={this.handleCheckbox}
           handleInput={this.handleInput}
+          handleCallbackChange={this.handleCallbackChange}
         />
         <div>{list}</div>
       </div>

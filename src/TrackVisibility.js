@@ -63,7 +63,11 @@ export default class TrackVisibility extends PureComponent {
     /**
      * Define a custom tag
      */
-    tag: PropTypes.string
+    tag: PropTypes.string,
+    /**
+     * Add a callback function
+     */
+    callback: PropTypes.func
   };
 
   static defaultProps = {
@@ -71,7 +75,8 @@ export default class TrackVisibility extends PureComponent {
     throttleInterval: 150,
     offset: 0,
     partialVisibility: false,
-    tag: 'div'
+    tag: 'div',
+    callback: null
   };
 
   constructor(props) {
@@ -161,7 +166,7 @@ export default class TrackVisibility extends PureComponent {
       if (!this.nodeRef || !this.nodeRef.getBoundingClientRect) return;
 
       const html = document.documentElement;
-      const { once } = this.props;
+      const { once, callback } = this.props;
       const boundingClientRect = this.nodeRef.getBoundingClientRect();
       const windowWidth = window.innerWidth || html.clientWidth;
       const windowHeight = window.innerHeight || html.clientHeight;
@@ -174,6 +179,10 @@ export default class TrackVisibility extends PureComponent {
 
       if (isVisible && once) {
         this.removeListener();
+      }
+
+      if (callback) {
+        callback(isVisible);
       }
 
       this.setState({ isVisible });
