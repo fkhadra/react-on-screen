@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<coverage generated="1545261155603" clover="3.2.0">
-  <project timestamp="1545261155603" name="All files">
+<coverage generated="1545261835415" clover="3.2.0">
+  <project timestamp="1545261835415" name="All files">
     <metrics statements="56" coveredstatements="56" conditionals="45" coveredconditionals="42" methods="15" coveredmethods="15" elements="116" coveredelements="113" complexity="0" loc="56" ncloc="56" packages="2" files="2" classes="2">
       <package name="react-on-screen">
         <metrics statements="4" coveredstatements="4" conditionals="0" coveredconditionals="0" methods="0" coveredmethods="0"/>
@@ -16,10 +16,10 @@
         <metrics statements="52" coveredstatements="52" conditionals="45" coveredconditionals="42" methods="15" coveredmethods="15"/>
         <file name="TrackVisibility.js" path="/Users/blaineobrien/Sites/react-on-screen/src/TrackVisibility.js">
           <metrics statements="52" coveredstatements="52" conditionals="45" coveredconditionals="42" methods="15" coveredmethods="15"/>
-          <line num="19" count="84" type="stmt"/>
-          <line num="20" count="84" type="cond" truecount="4" falsecount="0"/>
+          <line num="19" count="86" type="stmt"/>
+          <line num="20" count="86" type="cond" truecount="4" falsecount="0"/>
           <line num="21" count="6" type="stmt"/>
-          <line num="25" count="78" type="stmt"/>
+          <line num="25" count="80" type="stmt"/>
           <line num="83" count="35" type="stmt"/>
           <line num="84" count="35" type="stmt"/>
           <line num="85" count="35" type="stmt"/>

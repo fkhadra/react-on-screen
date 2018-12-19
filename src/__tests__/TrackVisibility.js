@@ -618,19 +618,16 @@ describe('<TrackVisibility />', () => {
     });
 
     describe('with callback prop', () => {
-      const callbackFunction = isVisible => {
-        console.log(isVisible);
-      };
       const props = {
-        callback: callbackFunction
+        callback: jest.fn()
       };
       const wrapper = renderComponent(<TrackVisibility {...props} />);
 
       it("should call passed function when isVisible changes", () => {
         // Reset mock as it'll have been called a number of times at mount
-        expect(callbackFunction).toHaveBeenCalled();
+        expect(props.callback).toHaveBeenCalled();
         reRenderWrapper(wrapper, { props });
-        expect(callbackFunction).toHaveBeenCalled();
+        expect(props.callback).toHaveBeenCalled();
       });
     });    
   });
