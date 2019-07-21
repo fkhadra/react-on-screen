@@ -169,8 +169,8 @@ export default class TrackVisibility extends PureComponent {
       const html = document.documentElement;
       const { once } = this.props;
       const boundingClientRect = this.nodeRef.getBoundingClientRect();
-      const windowWidth = this.props.body ? document.getElementById(this.props.body).innerWidth : window.innerWidth || html.clientWidth;
-      const windowHeight = this.props.body ? document.getElementById(this.props.body).innerHeight : window.innerHeight || html.clientHeight;
+      const windowWidth = window.innerWidth || html.clientWidth;
+      const windowHeight = window.innerHeight || html.clientHeight;
 
       const isVisible = this.isVisible(
         boundingClientRect,
