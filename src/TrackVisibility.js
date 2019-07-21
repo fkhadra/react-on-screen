@@ -47,7 +47,13 @@ export default class TrackVisibility extends PureComponent {
     /**
      * Define an offset. Can be useful for lazy loading
      */
-    offset: PropTypes.number,
+    offset: PropTypes.oneOfType([
+      PropTypes.number,
+      PropTypes.shape({
+        left: PropTypes.number,
+        top: PropTypes.number
+      })
+    ]),
 
     /**
      * Update the visibility state as soon as a part of the tracked component is visible
@@ -134,25 +140,50 @@ export default class TrackVisibility extends PureComponent {
     windowHeight
   ) => {
     const { offset, partialVisibility } = this.props;
+    
+    let offestLeft, offestTop;
+    if (typeof offset === "object" && offset !== null) {
+      offestLeft = offset.left ? offset.left : 0;
+      offestTop = offset.top ? offset.top : 0;
+    } else if (Number.isInteger(offset)) {
+      offestTop = offestLeft = offset;
+    }
 
     if (top + right + bottom + left === 0) {
       return false;
     }
 
-    const topThreshold = 0 - offset;
-    const leftThreshold = 0 - offset;
-    const widthCheck = windowWidth + offset;
-    const heightCheck = windowHeight + offset;
+    const topThreshold = 0 - offestTop;
+    const leftThreshold = 0 - offestLeft;
+    const widthCheck = windowWidth + offestLeft;
+    const heightCheck = windowHeight + offestTop;
 
-    return partialVisibility
-      ? top + height >= topThreshold &&
-          left + width >= leftThreshold &&
-          bottom - height <= heightCheck &&
-          right - width <= widthCheck
-      : top >= topThreshold &&
-          left >= leftThreshold &&
-          bottom <= heightCheck &&
-          right <= widthCheck;
+    let isVisibleTop = false;
+    let isVisibleLeft = false;
+    
+    if (partialVisibility) {
+      isVisibleLeft = offestLeft !== -1 ? (
+        left + width >= leftThreshold && 
+        right - width <= widthCheck
+      ) : true;
+
+      isVisibleTop = offestTop !== -1 ? (
+        top + height >= topThreshold &&
+        bottom - height <= heightCheck
+      ) : true;
+    } else {
+      isVisibleLeft = offestLeft !== -1 ? (
+        left >= leftThreshold &&
+        right <= widthCheck
+      ) : true;
+
+      isVisibleTop = offestTop !== -1 ? (
+        top >= topThreshold &&
+        bottom <= heightCheck
+      ) : true;
+    }
+
+    return isVisibleLeft && isVisibleTop;
   };
 
   isComponentVisible = () => {
