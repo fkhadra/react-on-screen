@@ -68,7 +68,7 @@ export default class TrackVisibility extends PureComponent {
     /**
      * what to attach scroll listeners to
      */
-    body: PropTypes.element
+    body: PropTypes.string
   };
 
   static defaultProps = {
@@ -114,13 +114,13 @@ export default class TrackVisibility extends PureComponent {
   }
 
   attachListener() {
-    this.props.body ? this.props.body.addEventListener('scroll', this.throttleCb) : window.addEventListener('scroll', this.throttleCb);
-    this.props.body ? this.props.body.addEventListener('resize', this.throttleCb) : window.addEventListener('resize', this.throttleCb)
+    this.props.body ? document.getElementById(this.props.body).addEventListener('scroll', this.throttleCb) : window.addEventListener('scroll', this.throttleCb);
+    this.props.body ? document.getElementById(this.props.body).addEventListener('resize', this.throttleCb) : window.addEventListener('resize', this.throttleCb)
   }
 
   removeListener() {
-    this.props.body ? this.props.body.removeEventListener('scroll', this.throttleCb) : window.removeEventListener('scroll', this.throttleCb);
-    this.props.body ? this.props.body.removeEventListener('resize', this.throttleCb) : window.removeEventListener('resize', this.throttleCb);
+    this.props.body ? document.getElementById(this.props.body).removeEventListener('scroll', this.throttleCb) : window.removeEventListener('scroll', this.throttleCb);
+    this.props.body ? document.getElementById(this.props.body).removeEventListener('resize', this.throttleCb) : window.removeEventListener('resize', this.throttleCb);
   }
 
   getChildProps(props = this.props) {
@@ -168,8 +168,8 @@ export default class TrackVisibility extends PureComponent {
       const html = document.documentElement;
       const { once } = this.props;
       const boundingClientRect = this.nodeRef.getBoundingClientRect();
-      const windowWidth = this.props.body ? this.props.body.innWidth : window.innerWidth || html.clientWidth;
-      const windowHeight = this.props.body ? this.props.body.innerHeight : window.innerHeight || html.clientHeight;
+      const windowWidth = this.props.body ? document.getElementById(this.props.body).innWidth : window.innerWidth || html.clientWidth;
+      const windowHeight = this.props.body ? document.getElementById(this.props.body).innerHeight : window.innerHeight || html.clientHeight;
 
       const isVisible = this.isVisible(
         boundingClientRect,
