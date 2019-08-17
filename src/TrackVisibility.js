@@ -68,7 +68,13 @@ export default class TrackVisibility extends PureComponent {
     /**
      * what to attach scroll listeners to
      */
-    body: PropTypes.string
+    body: PropTypes.string,
+
+    /**
+     * Check visibility when body gets focus only
+     * 
+     */
+    withFocus: PropTypes.bool
   };
 
   static defaultProps = {
@@ -89,6 +95,14 @@ export default class TrackVisibility extends PureComponent {
       this.isComponentVisible,
       this.props.throttleInterval
     );
+
+    this.throttleCbFocus = () => {
+      console.log("From focus");
+      this.isComponentVisible();
+    }
+    
+    
+    this.withFocus = false;
 
     props.nodeRef && this.setNodeRef(props.nodeRef);
   }
@@ -115,12 +129,14 @@ export default class TrackVisibility extends PureComponent {
 
   attachListener() {
     this.props.body ? document.getElementById(this.props.body).addEventListener('scroll', this.throttleCb) : window.addEventListener('scroll', this.throttleCb);
-    this.props.body ? document.getElementById(this.props.body).addEventListener('resize', this.throttleCb) : window.addEventListener('resize', this.throttleCb)
+    this.props.body ? document.getElementById(this.props.body).addEventListener('resize', this.throttleCb) : window.addEventListener('resize', this.throttleCb);
+    window.addEventListener('focus', this.throttleCb);
   }
 
   removeListener() {
     this.props.body ? document.getElementById(this.props.body).removeEventListener('scroll', this.throttleCb) : window.removeEventListener('scroll', this.throttleCb);
     this.props.body ? document.getElementById(this.props.body).removeEventListener('resize', this.throttleCb) : window.removeEventListener('resize', this.throttleCb);
+    document.addEventListener('focus', this.throttleCb);
   }
 
   getChildProps(props = this.props) {
@@ -131,6 +147,10 @@ export default class TrackVisibility extends PureComponent {
       }
     });
     return childProps;
+  }
+  
+  isFocused = () => {
+    return this.props.withFocus ? document.hasFocus() : true;
   }
 
   isVisible = (
@@ -162,7 +182,7 @@ export default class TrackVisibility extends PureComponent {
 
   isComponentVisible = () => {
     setTimeout(() => {
-      console.log("IS COMPONENT VISIBLE!?")
+      
       // isComponentVisible might be called from componentDidMount, before component ref is assigned
       if (!this.nodeRef || !this.nodeRef.getBoundingClientRect) return;
 
@@ -176,8 +196,8 @@ export default class TrackVisibility extends PureComponent {
         boundingClientRect,
         windowWidth,
         windowHeight
-      );
-
+      ) && this.isFocused();
+      
       if (isVisible && once) {
         this.removeListener();
       }
