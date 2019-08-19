@@ -95,12 +95,6 @@ export default class TrackVisibility extends PureComponent {
       this.isComponentVisible,
       this.props.throttleInterval
     );
-
-    this.throttleCbFocus = () => {
-      console.log("From focus");
-      this.isComponentVisible();
-    }
-    
     
     this.withFocus = false;
 
@@ -130,13 +124,13 @@ export default class TrackVisibility extends PureComponent {
   attachListener() {
     this.props.body ? document.getElementById(this.props.body).addEventListener('scroll', this.throttleCb) : window.addEventListener('scroll', this.throttleCb);
     this.props.body ? document.getElementById(this.props.body).addEventListener('resize', this.throttleCb) : window.addEventListener('resize', this.throttleCb);
-    window.addEventListener('focus', this.throttleCb);
+    this.props.withFocus ? window.addEventListener('focus', this.throttleCb) : null;
   }
 
   removeListener() {
     this.props.body ? document.getElementById(this.props.body).removeEventListener('scroll', this.throttleCb) : window.removeEventListener('scroll', this.throttleCb);
     this.props.body ? document.getElementById(this.props.body).removeEventListener('resize', this.throttleCb) : window.removeEventListener('resize', this.throttleCb);
-    document.addEventListener('focus', this.throttleCb);
+    this.props.withFocus ? document.removeEventListener('focus', this.throttleCb) : null;
   }
 
   getChildProps(props = this.props) {
