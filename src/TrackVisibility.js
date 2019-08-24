@@ -1,7 +1,7 @@
 /* global window, document */
 import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
-import throttle from 'lodash.throttle';
+import { throttle } from 'lodash';
 import shallowequal from 'shallowequal';
 
 export default class TrackVisibility extends PureComponent {
